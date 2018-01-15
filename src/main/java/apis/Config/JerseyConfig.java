@@ -1,0 +1,12 @@
+package apis.Config;
+
+import apis.controllers.GreetingController;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.springframework.stereotype.Component;
+
+@Component
+public class JerseyConfig extends ResourceConfig {
+    public JerseyConfig(){
+        register(GreetingController.class);
+    }
+}
