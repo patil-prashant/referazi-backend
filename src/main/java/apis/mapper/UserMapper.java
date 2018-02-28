@@ -1,11 +1,13 @@
 package apis.mapper;
 
-import apis.models.Users;
+import apis.models.User;
 import java.util.List;
 
 public interface UserMapper
 {
-    void insertUser(Users user);
-    Users findUserById(Integer id);
-    List<Users> findAllUsers();
+    void insertUser(User user);
+    User findUserById(Integer id);
+    List<User> findAllUsers();
+    User fineUserByEmail(String email);
+    String getPassword(String email);
 }

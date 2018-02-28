@@ -1,11 +1,13 @@
 package apis.models;
 
-public class Users {
+public class User {
     private Integer id;
 
     private String name;
 
     private String email;
+
+    private String password;
 
     public Integer getId() {
         return id;
@@ -31,5 +33,11 @@ public class Users {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
