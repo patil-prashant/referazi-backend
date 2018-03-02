@@ -8,6 +8,6 @@ public interface UserMapper
     void insertUser(User user);
     User findUserById(Integer id);
     List<User> findAllUsers();
-    User fineUserByEmail(String email);
+    User findUserByEmail(String email);
     String getPassword(String email);
 }

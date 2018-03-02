@@ -13,7 +13,7 @@
         select * from user_profile where user_id=#{userId}
     </select>
     <select id="findUserProfileById" resultMap="UserProfileResultMap">
-        select id, skill, email from user_profile WHERE id=#{id}
+        select job_title,company,location from user_profile WHERE id=#{id}
     </select>
     <insert id="insertUser" parameterType="apis.models.UserProfile" useGeneratedKeys="true" keyProperty="id">
         insert into user_profile(user_id,job_title,company,location) values(#{userId},#{jobTitle},#{company},#{location})

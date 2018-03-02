@@ -1,0 +1,28 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="apis.mapper.BlogMapper">
+    <resultMap id="BlogResultMap" type="apis.models.Blog">
+        <id column="id" property="id" />
+        <result column="id" property="id"/>
+        <result column="title" property="title" />
+        <result column="blog" property="blog" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+    <select id="allBlogs" resultMap="BlogResultMap">
+        select * from blog
+    </select>
+    <insert id="insertBlog" parameterType="apis.models.Blog" useGeneratedKeys="true" keyProperty="id">
+        insert into skill(title,blog,user_id) values(#{title},#{blog},#{userId})
+    </insert>
+    <update id="updateBlog" parameterType="apis.models.Blog">
+        update blog set
+            title = #{title},
+            blog = #{blog},
+            user_id = #{userId}
+        where id = #{id}
+    </update>
+    <delete id="removeBlog">
+        delete from blog where id = {id}
+    </delete>
+</mapper>
