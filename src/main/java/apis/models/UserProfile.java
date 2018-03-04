@@ -6,6 +6,7 @@ public class UserProfile {
     private String jobTitle;
     private String company;
     private String location;
+    private String role;
 
     public Integer getId() {
         return id;
@@ -45,5 +46,13 @@ public class UserProfile {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

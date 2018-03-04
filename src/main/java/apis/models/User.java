@@ -1,5 +1,11 @@
 package apis.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     private Integer id;
 
@@ -8,6 +14,8 @@ public class User {
     private String email;
 
     private String password;
+
+    private List<UserProfile> userProfiles = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -39,5 +47,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<UserProfile> getUserProfiles() {
+        return userProfiles;
+    }
+
+    public void setUserProfiles(List<UserProfile> userProfiles) {
+        this.userProfiles = userProfiles;
     }
 }

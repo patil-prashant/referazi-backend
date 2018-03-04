@@ -47,7 +47,7 @@ public class UserController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/saveProfile")
+    @Path("/save-profile")
     public UserProfile saveProfile(UserProfile userProfile){
         userProfileMapper.insertUser(userProfile);
         return userProfile;
