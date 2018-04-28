@@ -1,10 +1,10 @@
-package apis.mapper;
+package com.referazi.dao;
 
-import apis.models.Blog;
+import com.referazi.models.Blog;
 
 import java.util.List;
 
-public interface BlogMapper {
+public interface BlogDao {
     void insertBlog(Blog blog);
     void updateBlog(Blog blog);
     void removeBlog(Integer id);

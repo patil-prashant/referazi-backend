@@ -1,4 +1,4 @@
-package apis.models;
+package com.referazi.models;
 
 public class Login {
     private String email;

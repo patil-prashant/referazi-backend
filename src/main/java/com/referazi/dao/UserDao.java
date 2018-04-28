@@ -1,9 +1,9 @@
-package apis.mapper;
+package com.referazi.dao;
 
-import apis.models.User;
+import com.referazi.models.User;
 import java.util.List;
 
-public interface UserMapper
+public interface UserDao
 {
     void insertUser(User user);
     User findUserById(Integer id);

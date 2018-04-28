@@ -1,9 +1,9 @@
-package apis.Config;
+package com.referazi.config;
 
-import Auth.AuthorizationRequestFilter;
-import Auth.CrossDomainFilter;
-import apis.controllers.UserController;
-import org.apache.catalina.filters.CorsFilter;
+import com.referazi.controllers.DataController;
+import com.referazi.security.AuthorizationRequestFilter;
+import com.referazi.security.CrossDomainFilter;
+import com.referazi.controllers.UserController;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class JerseyConfig extends ResourceConfig {
     public JerseyConfig(){
         register(UserController.class);
+        register(DataController.class);
         register(AuthorizationRequestFilter.class);
         register(CrossDomainFilter.class);
     }

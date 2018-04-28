@@ -1,13 +1,12 @@
-package Auth;
+package com.referazi.security;
 
-import apis.providers.SessionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
+import java.io.IOException;
 
 @Provider
 public class AuthorizationRequestFilter implements ContainerRequestFilter {

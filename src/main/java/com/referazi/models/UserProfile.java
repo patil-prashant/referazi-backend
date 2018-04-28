@@ -1,20 +1,20 @@
-package apis.models;
+package com.referazi.models;
+
+import java.util.List;
 
 public class UserProfile {
-    private Integer id;
+
     private Integer userId;
+
     private String jobTitle;
+
     private String company;
+
     private String location;
+
     private String role;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private List<String> skills;
 
     public Integer getUserId() {
         return userId;
@@ -54,5 +54,25 @@ public class UserProfile {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
+    }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" +
+                "userId=" + userId +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", company='" + company + '\'' +
+                ", location='" + location + '\'' +
+                ", role='" + role + '\'' +
+                ", skills=" + skills +
+                '}';
     }
 }

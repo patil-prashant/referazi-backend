@@ -1,14 +1,12 @@
-package apis.controllers;
+package com.referazi.controllers;
 
-import apis.mapper.SkillMapper;
-import apis.mapper.UserMapper;
-import apis.mapper.UserProfileMapper;
-import apis.models.Login;
-import apis.models.Skill;
-import apis.models.User;
-import apis.models.UserProfile;
-import apis.providers.SessionProvider;
-import apis.providers.UserService;
+import com.referazi.dao.SkillDao;
+import com.referazi.dao.UserDao;
+import com.referazi.dao.UserProfileDao;
+import com.referazi.dao.UserSkillDao;
+import com.referazi.models.*;
+import com.referazi.security.SessionProvider;
+import com.referazi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -25,49 +23,17 @@ import static javax.ws.rs.core.Response.*;
 public class UserController {
 
     @Autowired
-    UserMapper userMapper;
+    UserDao userDao;
     @Autowired
-    SkillMapper skillMapper;
+    SkillDao skillDao;
     @Autowired
-    UserProfileMapper userProfileMapper;
+    UserSkillDao userSkillDao;
+    @Autowired
+    UserProfileDao userProfileDao;
     @Autowired
     SessionProvider sessionProvider;
     @Inject
     UserService userService;
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/addSkills")
-    public Skill addSkills(Skill skill){
-        skillMapper.addUserSkill(skill);
-        return skill;
-    }
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/save-profile")
-    public UserProfile saveProfile(UserProfile userProfile){
-        userProfileMapper.insertUser(userProfile);
-        return userProfile;
-    }
-
-    @GET
-    @Path("/tempx")
-    public String setSession(){
-        sessionProvider.session("email","pdharane@gmail.com");
-        return sessionProvider.session("email");
-        /*return "hi";*/
-    }
-
-    @GET
-    @Path("/tempy")
-    public String clearSession(){
-        sessionProvider.clear();
-        return sessionProvider.session("email");
-        /*return "hi";*/
-    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -106,5 +72,20 @@ public class UserController {
     public Response logout(Login login){
         userService.logout();
         return Response.ok().build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/save-profile")
+    public Response saveProfile(UserProfile userProfile){
+        return userService.saveProfile(userProfile);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/profile")
+    public Response profile(@QueryParam("profileType") String profileType){
+        return userService.fetchProfile(profileType);
     }
 }
