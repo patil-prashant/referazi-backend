@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.referazi.dao.BloggerDao">
+    <resultMap id="bloggerResultMap" type="com.referazi.models.Blogger">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+    <select id="findAllBloggers" resultMap="bloggerResultMap">
+        select * from blogger
+    </select>
+    <select id="findBloggerByUserId" resultMap="bloggerResultMap">
+        select * from blogger WHERE user_id=#{userId}
+    </select>
+    <insert id="registerBlogger" parameterType="com.referazi.models.Blogger" useGeneratedKeys="true" keyProperty="id">
+        insert into blogger(user_id) values(#{userId})
+    </insert>
+</mapper>

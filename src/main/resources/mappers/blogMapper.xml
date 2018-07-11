@@ -2,24 +2,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.referazi.dao.BlogDao">
-    <resultMap id="BlogResultMap" type="com.referazi.models.Blog">
+    <resultMap id="blogResultMap" type="com.referazi.models.Blog">
         <id column="id" property="id" />
-        <result column="id" property="id"/>
-        <result column="title" property="title" />
-        <result column="blog" property="blog" />
         <result column="user_id" property="userId" />
+        <result column="title" property="title" />
+        <result column="description" property="description" />
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="image_url" property="imageUrl"/>
     </resultMap>
-    <select id="allBlogs" resultMap="BlogResultMap">
+    <select id="allBlogs" resultMap="blogResultMap">
         select * from blog
     </select>
     <insert id="insertBlog" parameterType="com.referazi.models.Blog" useGeneratedKeys="true" keyProperty="id">
-        insert into skill(title,blog,user_id) values(#{title},#{blog},#{userId})
+        insert into blog(title,description,user_id, image_url) values(#{title},#{description},#{userId}, #{imageUrl})
     </insert>
     <update id="updateBlog" parameterType="com.referazi.models.Blog">
         update blog set
             title = #{title},
-            blog = #{blog},
-            user_id = #{userId}
+        description = #{description},
+            user_id = #{userId},
+        image_url = #{imageUrl}
         where id = #{id}
     </update>
     <delete id="removeBlog">

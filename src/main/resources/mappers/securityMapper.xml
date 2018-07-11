@@ -1,0 +1,23 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.referazi.dao.SecurityDao">
+    <resultMap id="tokenResultMap" type="com.referazi.models.Auth">
+        <result column="user_id" property="userId"/>
+        <result column="token" property="token" />
+        <result column="created_at" property="createdAt" />
+        <result column="expires_at" property="expiresAt" />
+    </resultMap>
+    <select id="getAuthDetails" resultType="com.referazi.models.Auth" resultMap="tokenResultMap">
+        SELECT * FROM USERTOKEN WHERE USER_ID = #{userId} AND TOKEN = #{token}
+    </select>
+    <select id="getAuthDetailsByToken" resultType="com.referazi.models.Auth" resultMap="tokenResultMap">
+        SELECT * FROM USERTOKEN WHERE TOKEN = #{token}
+    </select>
+    <insert id="insertUserToken">
+        INSERT INTO USERTOKEN (USER_ID, TOKEN) values(#{userId}, #{token})
+    </insert>
+    <delete id="deleteUserToken">
+        DELETE FROM USERTOKEN WHERE USER_ID = #{userId} AND TOKEN = #{token}
+    </delete>
+</mapper>

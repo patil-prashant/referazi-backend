@@ -16,11 +16,11 @@ public class User {
 
     private String password;
 
-    private String isSeeker;
+    private String isSeeker = "false";
 
-    private String isProvider;
+    private String isProvider = "false";
 
-    private String isBlogger ;
+    private String isBlogger = "false";
 
     public Integer getId() {
         return id;

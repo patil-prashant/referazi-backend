@@ -4,7 +4,7 @@
 <mapper namespace="com.referazi.dao.UserDao">
     <resultMap id="UserResultMap" type="com.referazi.models.User">
         <id column="id" property="id" />
-        <result column="username" property="name" />
+        <result column="user_name" property="name" />
         <result column="email" property="email" />
         <result column="password" property="password" />
         <result column="gender" property="gender" />
@@ -14,18 +14,18 @@
         <result column="isBlogger" property="isBlogger" />
     </resultMap>
     <select id="findAllUsers" resultMap="UserResultMap">
-        select id, username, email, gender, phone, isSeeker, isProvider, isBlogger from user
+        select id, user_name, email, gender, phone, isSeeker, isProvider, isBlogger from user
     </select>
     <select id="findUserById" resultMap="UserResultMap">
-        select id, username, email, gender, phone, isSeeker, isProvider, isBlogger from user WHERE id=#{id}
+        select id, user_name, email, gender, phone, isSeeker, isProvider, isBlogger from user WHERE id=#{id}
     </select>
     <select id="findUserByEmail" resultMap="UserResultMap">
-        select id, username, email, gender, phone, isSeeker, isProvider, isBlogger from user WHERE email=#{email}
+        select id, user_name, email, gender, phone, isSeeker, isProvider, isBlogger from user WHERE email=#{email}
     </select>
     <select id="getPassword" resultType="string">
         select password from user WHERE email=#{email}
     </select>
     <insert id="insertUser" parameterType="com.referazi.models.User" useGeneratedKeys="true" keyProperty="id">
-        insert into user(username,email,password,gender,phone) values(#{name},#{email},#{password},#{gender},#{phone})
+        insert into user(user_name,email,password,gender,phone) values(#{name},#{email},#{password},#{gender},#{phone})
     </insert>
 </mapper>

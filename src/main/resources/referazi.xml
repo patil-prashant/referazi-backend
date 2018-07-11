@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <bean id="securityManager" class="com.referazi.manager.SecurityManager"/>
+
+    <bean id="userController" class="com.referazi.controller.UserController"/>
+
+    <bean id="userService" class="com.referazi.service.UserService"/>
+
+    <bean id="authController" class="com.referazi.controller.AuthController"/>
+
+    <bean id="authService" class="com.referazi.service.AuthService"/>
+
+    <bean id="blogController" class="com.referazi.controller.BlogController"/>
+
+    <bean id="blogService" class="com.referazi.service.BlogService">
+        <property name="fileUploadLocation" value="${upload.location}"/>
+    </bean>
+
+    <bean id="bloggerController" class="com.referazi.controller.BloggerController"/>
+
+    <bean id="bloggerService" class="com.referazi.service.BloggerService"/>
+
+    <bean id="sessionProvider" class="com.referazi.security.SessionProvider">
+        <constructor-arg>
+            <value>com.referazi.models.Auth</value>
+        </constructor-arg>
+    </bean>
+</beans>

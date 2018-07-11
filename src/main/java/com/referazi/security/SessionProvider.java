@@ -1,24 +1,40 @@
 package com.referazi.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+public class SessionProvider<T> {
 
-@Service
-public class SessionProvider {
-    @Autowired
-    private HttpSession httpSession;
+    private Class<T> type;
 
-    public void session(String key,String value){
-        httpSession.setAttribute(key,value);
+    public SessionProvider(Class<T> type) {
+        this.type = type;
     }
 
-    public String session(String key){
-        return (String) httpSession.getAttribute(key);
+    private Map<String, T> map = new HashMap<>();
+
+    public SessionProvider(Map<String, T> map) {
+        this.map = map;
     }
 
-    public void clear(){
-        httpSession.invalidate();
+    public void addSession(String id, T t) {
+        map.put(id, t);
     }
+
+    public void updateSession(String id, T t) {
+        map.put(id, t);
+    }
+
+    public T getSession(String id) {
+        return map.get(id);
+    }
+
+    public void clearSession() {
+        map.clear();
+    }
+
+    public void removeSession(String id) {
+        map.remove(id);
+    }
+
 }

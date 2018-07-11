@@ -1,6 +1,7 @@
 package com.referazi.dao;
 
 import com.referazi.models.User;
+
 import java.util.List;
 
 public interface UserDao
