@@ -55,6 +55,14 @@ public class BlogService {
         return blogDao.allBlogs();
     }
 
+    public Blog getBlogById(Integer id){
+        return blogDao.getBlogById(id);
+    }
+
+    public void deleteBlogById(Integer id){
+        blogDao.removeBlog(id);
+    }
+
     public String getFileUploadLocation() {
         return fileUploadLocation;
     }

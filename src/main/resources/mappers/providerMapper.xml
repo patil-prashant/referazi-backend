@@ -1,0 +1,27 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.referazi.dao.ProviderDao">
+    <resultMap id="providerResultMap" type="com.referazi.models.Provider">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="location" property="location" />
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+    <select id="findAllProviders" resultMap="providerResultMap">
+        select * from provider
+    </select>
+    <select id="findProviderByUserId" resultMap="providerResultMap">
+        select * from provider WHERE user_id=#{userId}
+    </select>
+    <delete id="deleteProvider">
+        delete from provider WHERE user_id=#{userId}
+    </delete>
+    <insert id="registerProvider" parameterType="com.referazi.models.Seeker" useGeneratedKeys="true" keyProperty="id">
+        insert into provider(user_id, location) values(#{userId}, #{location})
+    </insert>
+    <insert id="updateProvider" parameterType="com.referazi.models.Seeker">
+        update provider set location=#{location} where user_id=#{userId}
+    </insert>
+</mapper>

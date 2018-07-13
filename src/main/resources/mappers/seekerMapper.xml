@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.referazi.dao.SeekerDao">
+    <resultMap id="seekerResultMap" type="com.referazi.models.Seeker">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="job_title" property="jobTitle" />
+        <result column="company" property="company" />
+        <result column="location" property="location" />
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+    <select id="findAllSeekers" resultMap="seekerResultMap">
+        select * from seeker
+    </select>
+    <select id="findSeekerByUserId" resultMap="seekerResultMap">
+        select * from seeker WHERE user_id=#{userId}
+    </select>
+    <delete id="deleteSeeker">
+        delete from seeker WHERE user_id=#{userId}
+    </delete>
+    <insert id="registerSeeker" parameterType="com.referazi.models.Seeker" useGeneratedKeys="true" keyProperty="id">
+        insert into seeker(user_id, job_title, company, location) values(#{userId}, #{jobTitle}, #{company}, #{location})
+    </insert>
+    <insert id="updateSeeker" parameterType="com.referazi.models.Seeker">
+        update seeker set job_title=#{jobTitle}, company=#{company}, location=#{location} where user_id=#{userId}
+    </insert>
+</mapper>

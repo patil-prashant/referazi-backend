@@ -12,5 +12,7 @@
 		<mapper resource="mappers/securityMapper.xml"/>
 		<mapper resource="mappers/blogMapper.xml"/>
 		<mapper resource="mappers/bloggerMapper.xml"/>
+		<mapper resource="mappers/seekerMapper.xml"/>
+		<mapper resource="mappers/providerMapper.xml"/>
 	</mappers>
 </configuration>

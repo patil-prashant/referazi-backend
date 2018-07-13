@@ -24,6 +24,14 @@
 
     <bean id="bloggerService" class="com.referazi.service.BloggerService"/>
 
+    <bean id="seekerController" class="com.referazi.controller.SeekerController"/>
+
+    <bean id="seekerService" class="com.referazi.service.SeekerService"/>
+
+    <bean id="providerController" class="com.referazi.controller.ProviderController"/>
+
+    <bean id="providerService" class="com.referazi.service.ProviderService"/>
+
     <bean id="sessionProvider" class="com.referazi.security.SessionProvider">
         <constructor-arg>
             <value>com.referazi.models.Auth</value>

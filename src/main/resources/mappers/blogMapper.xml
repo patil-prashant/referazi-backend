@@ -14,6 +14,9 @@
     <select id="allBlogs" resultMap="blogResultMap">
         select * from blog
     </select>
+    <select id="getBlogById" resultMap="blogResultMap">
+        select * from blog where id=#{id}
+    </select>
     <insert id="insertBlog" parameterType="com.referazi.models.Blog" useGeneratedKeys="true" keyProperty="id">
         insert into blog(title,description,user_id, image_url) values(#{title},#{description},#{userId}, #{imageUrl})
     </insert>
@@ -26,6 +29,6 @@
         where id = #{id}
     </update>
     <delete id="removeBlog">
-        delete from blog where id = {id}
+        delete from blog where id = #{id}
     </delete>
 </mapper>

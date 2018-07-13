@@ -14,7 +14,7 @@ import java.io.InputStream;
 import static javax.ws.rs.core.Response.Status;
 
 @Controller
-@Path("/blog")
+@Path("/blogs")
 public class BlogController {
 
     @Inject
@@ -36,20 +36,44 @@ public class BlogController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.serverError().entity("Internal Server Exception").build();
+            return Response.serverError().entity("Internal Server Exception").type(MediaType.TEXT_PLAIN).build();
         }
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/")
-    public Response getAllBlogs(){
+    public Response getBlogs(){
         try{
             return Response.status(Status.OK).entity(blogService.getAllBlogs()).build();
         }catch (Exception e){
             e.printStackTrace();
-            return Response.serverError().entity("Internal Server Exception").build();
+            return Response.serverError().entity("Internal Server Exception").type(MediaType.TEXT_PLAIN).build();
         }
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response getBlogById(@PathParam("id") Integer id){
+        try{
+            return Response.status(Status.OK).entity(blogService.getBlogById(id)).build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.serverError().entity("Internal Server Exception").type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response deleteBlogById(@PathParam("id") Integer id){
+        try{
+            blogService.deleteBlogById(id);
+            return Response.status(Status.OK).build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.serverError().entity("Internal Server Exception").type(MediaType.TEXT_PLAIN).build();
+        }
+    }
 }
