@@ -29,7 +29,7 @@ public class ProviderController {
             return providerService.currentProvider();
         } catch (Exception e) {
             e.printStackTrace();
-            return serverError().entity(e.getMessage()).build();
+            return Response.serverError().entity("Internal Server Error").build();
         }
     }
 
@@ -42,7 +42,7 @@ public class ProviderController {
             return providerService.updateProvider(provider);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return Response.serverError().entity(e.getMessage()).build();
+            return Response.serverError().entity("Internal Server Error").build();
         }
     }
 
@@ -55,7 +55,7 @@ public class ProviderController {
             return providerService.deleteProvider();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return Response.serverError().entity(e.getMessage()).build();
+            return Response.serverError().entity("Internal Server Error").build();
         }
     }
 
@@ -68,7 +68,7 @@ public class ProviderController {
             return providerService.register(provider);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return Response.serverError().entity(e.getMessage()).build();
+            return Response.serverError().entity("Internal Server Error").build();
         }
     }
 

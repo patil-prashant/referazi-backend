@@ -40,12 +40,8 @@ public class UserController {
     @Path("/register")
     public Response register(User user){
         try {
-            if (userService.register(user)){
-                user.setPassword(null);
-                return ok(user).build();
-            }else {
-                return status(Response.Status.BAD_REQUEST).build();
-            }
+            return userService.register(user);
+
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return Response.serverError().entity(e.getMessage()).build();

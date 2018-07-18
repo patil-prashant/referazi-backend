@@ -1,7 +1,10 @@
 package com.referazi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Blog {
     private Integer id;
     private Integer userId;

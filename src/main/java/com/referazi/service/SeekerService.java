@@ -1,6 +1,7 @@
 package com.referazi.service;
 
 import com.referazi.dao.SeekerDao;
+import com.referazi.dao.UserDao;
 import com.referazi.models.Auth;
 import com.referazi.models.Blogger;
 import com.referazi.models.Seeker;
@@ -15,6 +16,10 @@ import javax.ws.rs.core.Response;
 import java.security.NoSuchAlgorithmException;
 
 public class SeekerService {
+
+    @Autowired
+    @Qualifier("userDao")
+    UserDao userDao;
 
     @Autowired
     @Qualifier("seekerDao")
@@ -53,6 +58,7 @@ public class SeekerService {
 
         if (seeker!=null){
             seekerDao.deleteSeeker(seeker.getUserId());
+            userDao.updateSeekerStatus("false", user.getId());
             return Response.ok().build();
         }else {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not registered as Seeker").type(MediaType.TEXT_PLAIN).build();
@@ -72,6 +78,7 @@ public class SeekerService {
         }else {
             seeker.setUserId(user.getId());
             seekerDao.registerSeeker(seeker);
+            userDao.updateSeekerStatus("true", user.getId());
             seeker = seekerDao.findSeekerByUserId(user.getId());
             return Response.ok(seeker).build();
         }

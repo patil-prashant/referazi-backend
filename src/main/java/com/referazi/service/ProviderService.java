@@ -2,6 +2,7 @@ package com.referazi.service;
 
 import com.referazi.dao.ProviderDao;
 import com.referazi.dao.SeekerDao;
+import com.referazi.dao.UserDao;
 import com.referazi.models.Auth;
 import com.referazi.models.Provider;
 import com.referazi.models.Seeker;
@@ -16,6 +17,10 @@ import javax.ws.rs.core.Response;
 import java.security.NoSuchAlgorithmException;
 
 public class ProviderService {
+
+    @Autowired
+    @Qualifier("userDao")
+    UserDao userDao;
 
     @Autowired
     @Qualifier("providerDao")
@@ -54,6 +59,7 @@ public class ProviderService {
 
         if (provider!=null){
             providerDao.deleteProvider(provider.getUserId());
+            userDao.updateProviderStatus("false", user.getId());
             return Response.ok().build();
         }else {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not registered as Provider").type(MediaType.TEXT_PLAIN).build();
@@ -73,6 +79,7 @@ public class ProviderService {
         }else {
             provider.setUserId(user.getId());
             providerDao.registerProvider(provider);
+            userDao.updateProviderStatus("true", user.getId());
             provider = providerDao.findProviderByUserId(user.getId());
             return Response.ok(provider).build();
         }
