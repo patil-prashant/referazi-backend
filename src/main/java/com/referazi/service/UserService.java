@@ -22,8 +22,16 @@ public class UserService {
     UserDao userDao;
 
     @Autowired
+    @Qualifier("securityDao")
+    SecurityDao securityDao;
+
+    @Autowired
     @Qualifier("sessionProvider")
     SessionProvider<Auth> sessionProvider;
+
+    @Autowired
+    @Qualifier("securityManager")
+    SecurityManager securityManager;
 
     public Response currentUser() throws Exception {
 
@@ -36,9 +44,9 @@ public class UserService {
         }
     }
 
-    public boolean register(User user) throws NoSuchAlgorithmException {
+    public Response register(User user) throws NoSuchAlgorithmException {
         if (userDao.findUserByEmail(user.getEmail()) != null){
-            return false;
+            return Response.status(Response.Status.BAD_REQUEST).entity("User already registered with the Email-ID: "+user.getEmail()).type(MediaType.TEXT_PLAIN).build();
         }else {
 //            String password = user.getPassword();
 //            MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -46,7 +54,17 @@ public class UserService {
 //            String encodedHashPwd = new String(encodedHash,StandardCharsets.UTF_8);
 //            user.setPassword(encodedHashPwd);
             userDao.insertUser(user);
-            return true;
+            user = userDao.findUserByEmail(user.getEmail());
+            user.setPassword(null);
+            Auth auth = new Auth();
+            String token = securityManager.generateAccessToken();
+            auth.setToken(token);
+            //TODO: manage transactional
+            securityDao.insertUserToken(user.getId(), token);
+            auth = securityDao.getAuthDetails(user.getId(), token);
+            auth.setUser(user);
+            sessionProvider.addSession(token,auth);
+            return Response.status(Response.Status.CREATED).entity(auth).build();
         }
     }
 
