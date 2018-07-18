@@ -17,6 +17,10 @@ import java.security.NoSuchAlgorithmException;
 public class BloggerService {
 
     @Autowired
+    @Qualifier("userDao")
+    UserDao userDao;
+
+    @Autowired
     @Qualifier("bloggerDao")
     BloggerDao bloggerDao;
 
@@ -55,6 +59,7 @@ public class BloggerService {
             blogger = new Blogger();
             blogger.setUserId(user.getId());
             bloggerDao.registerBlogger(blogger);
+            userDao.updateBloggerStatus("true", user.getId());
             blogger = bloggerDao.findBloggerByUserId(user.getId());
             return Response.ok(blogger).build();
         }

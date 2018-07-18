@@ -1,7 +1,10 @@
 package com.referazi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Provider {
 
     private Integer id;

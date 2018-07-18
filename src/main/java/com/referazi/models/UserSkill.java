@@ -1,5 +1,8 @@
 package com.referazi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserSkill {
     private Integer userId;
     private String profileType;
