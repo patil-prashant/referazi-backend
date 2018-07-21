@@ -21,6 +21,18 @@ public class ChatController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/message")
+    public Response getMessageList(){
+        try {
+            return chatService.getMessageList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return serverError().entity(e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/conversation/{receiverId}")
     public Response getHistory(@PathParam("receiverId")Integer receiverId){
         try {

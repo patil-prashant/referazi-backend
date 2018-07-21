@@ -2,6 +2,7 @@ package com.referazi.chat;
 
 import com.referazi.dao.ConversationDao;
 import com.referazi.dao.HistoryDao;
+import com.referazi.dao.MessageDao;
 import com.referazi.dao.UserDao;
 import com.referazi.models.Auth;
 import com.referazi.models.Conversation;
@@ -27,6 +28,10 @@ public class ChatService {
     @Autowired
     @Qualifier("historyDao")
     HistoryDao historyDao;
+
+    @Autowired
+    @Qualifier("messageDao")
+    MessageDao messageDao;
 
     @Autowired
     @Qualifier("sessionProvider")
@@ -75,4 +80,13 @@ public class ChatService {
         return Response.ok(userDao.getConversationContactList(user.getId()), MediaType.APPLICATION_JSON).build();
     }
 
+    public Response getMessageList() {
+        User user = SecurityUtils.getUser();
+
+        if (user == null){
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User not found").type(MediaType.TEXT_PLAIN).build();
+        }
+
+        return Response.ok(messageDao.getMessages(), MediaType.APPLICATION_JSON).build();
+    }
 }
