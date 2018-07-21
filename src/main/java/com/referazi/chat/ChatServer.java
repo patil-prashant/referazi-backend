@@ -42,6 +42,7 @@ public class ChatServer {
         Auth auth = SecurityUtils.getAuthDetails();
         Conversation conversation = ChatUtils.getConversationDao().getConversation(auth.getUserId(), receiver);
         if (conversation == null){
+            conversation = new Conversation();
             conversation.setUser1Id(auth.getUserId());
             conversation.setUser2Id(receiver);
             ChatUtils.getConversationDao().createConversation(conversation);
