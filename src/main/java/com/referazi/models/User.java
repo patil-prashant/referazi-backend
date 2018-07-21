@@ -18,11 +18,11 @@ public class User {
 
     private String password;
 
-    private String isSeeker = "false";
+    private String isSeeker;
 
-    private String isProvider = "false";
+    private String isProvider;
 
-    private String isBlogger = "false";
+    private String isBlogger;
 
     public Integer getId() {
         return id;

@@ -25,6 +25,18 @@
     <select id="getPassword" resultType="string">
         select password from user WHERE email=#{email}
     </select>
+    <select id="getMinUserDetails" resultMap="UserResultMap">
+        select id, user_name from user WHERE id=#{id}
+    </select>
+    <select id="getProviderUserList" resultMap="UserResultMap">
+        select id, user_name from user WHERE isProvider='true'
+    </select>
+    <select id="getConversationContactList" resultMap="UserResultMap">
+        select id, user_name from user
+        WHERE id in (select c.user2_id contacts from user u inner join conversation c on u.id=c.user1_id and u.id=#{id}
+        union
+        select c.user1_id contacts from user u inner join conversation c on u.id=c.user2_id and u.id=#{id})
+    </select>
     <insert id="insertUser" parameterType="com.referazi.models.User" useGeneratedKeys="true" keyProperty="id">
         insert into user(user_name,email,password,gender,phone) values(#{name},#{email},#{password},#{gender},#{phone})
     </insert>
@@ -36,5 +48,8 @@
     </update>
     <update id="updateBloggerStatus">
         update user set isBlogger = #{status} WHERE id = #{id}
+    </update>
+    <update id="updateOnlineStatus">
+        update user set isOnline = #{status} WHERE id = #{id}
     </update>
 </mapper>

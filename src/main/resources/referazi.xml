@@ -32,6 +32,10 @@
 
     <bean id="providerService" class="com.referazi.service.ProviderService"/>
 
+    <bean id="chatController" class="com.referazi.chat.ChatController"/>
+
+    <bean id="chatService" class="com.referazi.chat.ChatService"/>
+
     <bean id="sessionProvider" class="com.referazi.security.SessionProvider">
         <constructor-arg>
             <value>com.referazi.models.Auth</value>

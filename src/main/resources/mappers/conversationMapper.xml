@@ -1,0 +1,25 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.referazi.dao.ConversationDao">
+
+    <resultMap id="conversationResultMap" type="com.referazi.models.Conversation">
+        <id column="id" property="id" />
+        <result column="user1_id" property="user1Id" />
+        <result column="user2_id" property="user2Id" />
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <select id="getConversation" resultMap="conversationResultMap">
+        select * from conversation where (user1_id=#{user1Id} and user2_id=#{user2Id}) or (user1_id=#{user2Id} and user2_id=#{user1Id})
+    </select>
+
+    <select id="getConversationId" resultType="Integer">
+        select id from conversation where (user1_id=#{user1Id} and user2_id=#{user2Id}) or (user1_id=#{user2Id} and user2_id=#{user1Id})
+    </select>
+
+    <insert id="createConversation" parameterType="com.referazi.models.Conversation" useGeneratedKeys="true" keyProperty="id">
+        insert into conversation(user1_id, user2_id) values(#{user1Id}, #{user2Id})
+    </insert>
+
+</mapper>
