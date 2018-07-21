@@ -1,11 +1,9 @@
 package com.referazi.chat;
 
-import com.referazi.dao.BloggerDao;
 import com.referazi.dao.ConversationDao;
 import com.referazi.dao.HistoryDao;
 import com.referazi.dao.UserDao;
 import com.referazi.models.Auth;
-import com.referazi.models.Blogger;
 import com.referazi.models.Conversation;
 import com.referazi.models.User;
 import com.referazi.security.SecurityUtils;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.security.NoSuchAlgorithmException;
 
 public class ChatService {
 
@@ -35,7 +32,7 @@ public class ChatService {
     @Qualifier("sessionProvider")
     SessionProvider<Auth> sessionProvider;
 
-    public Response getHistory(Integer receiver) throws Exception {
+    public Response getConversation(Integer receiver) throws Exception {
 
         User user = SecurityUtils.getUser();
 

@@ -21,10 +21,10 @@ public class ChatController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/history/{receiverId}")
+    @Path("/conversation/{receiverId}")
     public Response getHistory(@PathParam("receiverId")Integer receiverId){
         try {
-            return chatService.getHistory(receiverId);
+            return chatService.getConversation(receiverId);
         } catch (Exception e) {
             e.printStackTrace();
             return serverError().entity(e.getMessage()).build();
