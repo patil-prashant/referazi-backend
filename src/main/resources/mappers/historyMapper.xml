@@ -15,7 +15,7 @@
     </resultMap>
 
     <select id="getMessageHistory" resultMap="historyResultMap">
-        select sender_id, (select description from message where message_id=message_id)as message,
+        select sender_id, (select description from message where id=message_id)as message,
         read_status, created_at from history where conversation_id=#{conversationId}
     </select>
 
@@ -25,7 +25,7 @@
     </insert>
 
     <select id="getHistoryMessageById" resultMap="historyResultMap">
-        select sender_id, (select description from message where message_id=message_id)as message,
+        select sender_id, (select description from message where id=message_id)as message,
             read_status, created_at from history where id=#{id}
     </select>
 

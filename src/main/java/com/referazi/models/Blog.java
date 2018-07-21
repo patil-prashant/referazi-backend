@@ -8,6 +8,7 @@ import java.util.Date;
 public class Blog {
     private Integer id;
     private Integer userId;
+    private String userName;
     private String title;
     private String description;
     private String imageUrl;
@@ -56,6 +57,14 @@ public class Blog {
         this.userId = userId;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -85,6 +94,7 @@ public class Blog {
         return "Blog{" +
                 "id=" + id +
                 ", userId=" + userId +
+                ", userName='" + userName + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +

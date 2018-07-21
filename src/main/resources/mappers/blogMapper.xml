@@ -5,6 +5,7 @@
     <resultMap id="blogResultMap" type="com.referazi.models.Blog">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
+        <result column="user_name" property="userName"/>
         <result column="title" property="title" />
         <result column="description" property="description" />
         <result column="created_at" property="createdAt"/>
@@ -12,7 +13,7 @@
         <result column="image_url" property="imageUrl"/>
     </resultMap>
     <select id="allBlogs" resultMap="blogResultMap">
-        select * from blog
+        select b.*,u.user_name from blog b inner join user u on b.user_id=u.id
     </select>
     <select id="getBlogById" resultMap="blogResultMap">
         select * from blog where id=#{id}
