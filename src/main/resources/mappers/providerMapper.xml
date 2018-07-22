@@ -16,7 +16,7 @@
         select * from provider WHERE user_id=#{userId}
     </select>
     <delete id="deleteProvider">
-        delete from provider WHERE user_id=#{userId}
+        delete from provider WHERE user_id=#{userId};
     </delete>
     <insert id="registerProvider" parameterType="com.referazi.models.Seeker" useGeneratedKeys="true" keyProperty="id">
         insert into provider(user_id, location) values(#{userId}, #{location})

@@ -3,6 +3,7 @@ package com.referazi.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Seeker {
@@ -16,6 +17,8 @@ public class Seeker {
     private String company;
 
     private String location;
+
+    private List<Skill> skills;
 
     private Date createdAt;
 
@@ -61,6 +64,14 @@ public class Seeker {
         this.location = location;
     }
 
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -85,6 +96,7 @@ public class Seeker {
                 ", jobTitle='" + jobTitle + '\'' +
                 ", company='" + company + '\'' +
                 ", location='" + location + '\'' +
+                ", skills=" + skills +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

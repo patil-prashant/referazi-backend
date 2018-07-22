@@ -1,0 +1,42 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.referazi.dao.SkillDao">
+
+    <resultMap id="skillResultMap" type="com.referazi.models.Skill">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+    </resultMap>
+
+    <select id="getSkills" resultMap="skillResultMap">
+        select * from skill
+    </select>
+
+    <insert id="insertSkill" useGeneratedKeys="true" keyProperty="id">
+        insert into skill(name) values(#{name})
+    </insert>
+
+    <select id="getProviderSkills" resultMap="skillResultMap">
+        select s.* from providerSkill ps inner join skill s on ps.skill_id=s.id and ps.user_id=#{userId}
+    </select>
+
+    <insert id="insertProviderSkills">
+        insert into providerSkill(user_id, skill_id) values(#{userId}, #{skillId})
+    </insert>
+
+    <select id="getSeekerSkills" resultMap="skillResultMap">
+        select s.* from seekerSkill ss inner join skill s on ss.skill_id=s.id and ss.user_id=#{userId}
+    </select>
+
+    <insert id="insertSeekerSkills">
+        insert into seekerSkill(user_id, skill_id) values(#{userId}, #{skillId})
+    </insert>
+
+    <delete id="deleteProviderSkills">
+        delete from providerSkill where user_id=#{userId}
+    </delete>
+
+    <delete id="deleteSeekerSkills">
+        delete from seekerSkill where user_id=#{userId}
+    </delete>
+</mapper>

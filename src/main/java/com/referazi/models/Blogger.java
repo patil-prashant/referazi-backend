@@ -3,6 +3,7 @@ package com.referazi.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Blogger {
@@ -10,6 +11,8 @@ public class Blogger {
     private Integer id;
 
     private Integer userId;
+
+    private List<Interest> interests;
 
     private Date createdAt;
 
@@ -29,6 +32,14 @@ public class Blogger {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public List<Interest> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(List<Interest> interests) {
+        this.interests = interests;
     }
 
     public Date getCreatedAt() {
@@ -52,6 +63,7 @@ public class Blogger {
         return "Blogger{" +
                 "id=" + id +
                 ", userId=" + userId +
+                ", interests=" + interests +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

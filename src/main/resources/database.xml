@@ -60,4 +60,14 @@
         <property name="mapperInterface" value="com.referazi.dao.HistoryDao"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
+
+    <bean id="skillDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.referazi.dao.SkillDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="interestDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.referazi.dao.InterestDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
 </beans>

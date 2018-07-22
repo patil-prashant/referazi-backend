@@ -2,11 +2,9 @@ package com.referazi.service;
 
 import com.referazi.dao.ProviderDao;
 import com.referazi.dao.SeekerDao;
+import com.referazi.dao.SkillDao;
 import com.referazi.dao.UserDao;
-import com.referazi.models.Auth;
-import com.referazi.models.Provider;
-import com.referazi.models.Seeker;
-import com.referazi.models.User;
+import com.referazi.models.*;
 import com.referazi.security.SecurityUtils;
 import com.referazi.security.SessionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,10 @@ public class ProviderService {
     ProviderDao providerDao;
 
     @Autowired
+    @Qualifier("skillDao")
+    SkillDao skillDao;
+
+    @Autowired
     @Qualifier("sessionProvider")
     SessionProvider<Auth> sessionProvider;
 
@@ -34,15 +36,16 @@ public class ProviderService {
 
         User user = SecurityUtils.getUser();
 
-        if (user == null){
+        if (user == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not found").type(MediaType.TEXT_PLAIN).build();
         }
 
-        Provider provider= providerDao.findProviderByUserId(user.getId());
+        Provider provider = providerDao.findProviderByUserId(user.getId());
 
-        if (provider!=null){
+        if (provider != null) {
+            provider.setSkills(skillDao.getProviderSkills(user.getId()));
             return Response.ok(provider, MediaType.APPLICATION_JSON).build();
-        }else {
+        } else {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not registered as Provider").type(MediaType.TEXT_PLAIN).build();
         }
     }
@@ -51,17 +54,18 @@ public class ProviderService {
 
         User user = SecurityUtils.getUser();
 
-        if (user == null){
+        if (user == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not found").type(MediaType.TEXT_PLAIN).build();
         }
 
-        Provider provider= providerDao.findProviderByUserId(user.getId());
+        Provider provider = providerDao.findProviderByUserId(user.getId());
 
-        if (provider!=null){
+        if (provider != null) {
             providerDao.deleteProvider(provider.getUserId());
+            skillDao.deleteProviderSkills(user.getId());
             userDao.updateProviderStatus("false", user.getId());
             return Response.ok().build();
-        }else {
+        } else {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not registered as Provider").type(MediaType.TEXT_PLAIN).build();
         }
     }
@@ -70,34 +74,48 @@ public class ProviderService {
 
         User user = SecurityUtils.getUser();
 
-        if (user == null){
+        if (user == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not found").type(MediaType.TEXT_PLAIN).build();
         }
 
-        if (providerDao.findProviderByUserId(user.getId()) != null){
+        if (providerDao.findProviderByUserId(user.getId()) != null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("User already registered as Provider").type(MediaType.TEXT_PLAIN).build();
-        }else {
+        } else {
             provider.setUserId(user.getId());
             providerDao.registerProvider(provider);
-            userDao.updateProviderStatus("true", user.getId());
-            provider = providerDao.findProviderByUserId(user.getId());
-            return Response.ok(provider).build();
+            if (provider.getSkills() != null) {
+                for (Skill skill : provider.getSkills()) {
+                    skillDao.insertProviderSkills(user.getId(), skill.getId());
+                }
+            }
         }
+        userDao.updateProviderStatus("true", user.getId());
+        provider = providerDao.findProviderByUserId(user.getId());
+        provider.setSkills(skillDao.getProviderSkills(user.getId()));
+        return Response.ok(provider).build();
     }
+
 
     public Response updateProvider(Provider provider) throws NoSuchAlgorithmException {
 
         User user = SecurityUtils.getUser();
 
-        if (user == null){
+        if (user == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not found").type(MediaType.TEXT_PLAIN).build();
         }
 
-        if (providerDao.findProviderByUserId(user.getId()) != null){
+        if (providerDao.findProviderByUserId(user.getId()) != null) {
             providerDao.updateProvider(provider);
+            skillDao.deleteProviderSkills(user.getId());
+            if (provider.getSkills() != null) {
+                for (Skill skill : provider.getSkills()) {
+                    skillDao.insertProviderSkills(user.getId(), skill.getId());
+                }
+            }
             provider = providerDao.findProviderByUserId(user.getId());
+            provider.setSkills(skillDao.getProviderSkills(user.getId()));
             return Response.ok(provider).build();
-        }else {
+        } else {
             return Response.status(Response.Status.BAD_REQUEST).entity("User not registered as Provider").type(MediaType.TEXT_PLAIN).build();
         }
     }

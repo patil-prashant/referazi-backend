@@ -1,0 +1,31 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.referazi.dao.InterestDao">
+
+    <resultMap id="interestResultMap" type="com.referazi.models.Interest">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+    </resultMap>
+
+    <select id="getInterests" resultMap="interestResultMap">
+        select * from interest
+    </select>
+
+    <insert id="insertInterest" useGeneratedKeys="true" keyProperty="id">
+        insert into interest(name) values(#{name})
+    </insert>
+
+    <insert id="insertBloggerInterest">
+        insert into bloggerInterest(user_id, interest_id) values(#{userId}, #{interestId})
+    </insert>
+
+    <select id="getBloggerInterests" resultMap="interestResultMap">
+        select i.* from bloggerInterest bi inner join interest i on bi.interest_id=i.id and bi.user_id=#{userId}
+    </select>
+
+    <delete id="deleteBloggerInterests">
+        delete from bloggerInterest where user_id=#{userId}
+    </delete>
+
+</mapper>

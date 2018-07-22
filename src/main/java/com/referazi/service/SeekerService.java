@@ -1,11 +1,9 @@
 package com.referazi.service;
 
 import com.referazi.dao.SeekerDao;
+import com.referazi.dao.SkillDao;
 import com.referazi.dao.UserDao;
-import com.referazi.models.Auth;
-import com.referazi.models.Blogger;
-import com.referazi.models.Seeker;
-import com.referazi.models.User;
+import com.referazi.models.*;
 import com.referazi.security.SecurityUtils;
 import com.referazi.security.SessionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,10 @@ public class SeekerService {
     SeekerDao seekerDao;
 
     @Autowired
+    @Qualifier("skillDao")
+    SkillDao skillDao;
+
+    @Autowired
     @Qualifier("sessionProvider")
     SessionProvider<Auth> sessionProvider;
 
@@ -40,6 +42,7 @@ public class SeekerService {
         Seeker seeker= seekerDao.findSeekerByUserId(user.getId());
 
         if (seeker!=null){
+            seeker.setSkills(skillDao.getSeekerSkills(user.getId()));
             return Response.ok(seeker, MediaType.APPLICATION_JSON).build();
         }else {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not registered as Seeker").type(MediaType.TEXT_PLAIN).build();
@@ -58,6 +61,7 @@ public class SeekerService {
 
         if (seeker!=null){
             seekerDao.deleteSeeker(seeker.getUserId());
+            skillDao.deleteSeekerSkills(user.getId());
             userDao.updateSeekerStatus("false", user.getId());
             return Response.ok().build();
         }else {
@@ -78,8 +82,14 @@ public class SeekerService {
         }else {
             seeker.setUserId(user.getId());
             seekerDao.registerSeeker(seeker);
+            if(seeker.getSkills() != null) {
+                for (Skill skill : seeker.getSkills()) {
+                    skillDao.insertSeekerSkills(user.getId(), skill.getId());
+                }
+            }
             userDao.updateSeekerStatus("true", user.getId());
             seeker = seekerDao.findSeekerByUserId(user.getId());
+            seeker.setSkills(skillDao.getSeekerSkills(user.getId()));
             return Response.ok(seeker).build();
         }
     }
@@ -94,7 +104,14 @@ public class SeekerService {
 
         if (seekerDao.findSeekerByUserId(user.getId()) != null){
             seekerDao.updateSeeker(seeker);
+            skillDao.deleteSeekerSkills(user.getId());
+            if(seeker.getSkills() != null) {
+                for (Skill skill : seeker.getSkills()) {
+                    skillDao.insertSeekerSkills(user.getId(), skill.getId());
+                }
+            }
             seeker = seekerDao.findSeekerByUserId(user.getId());
+            seeker.setSkills(skillDao.getSeekerSkills(user.getId()));
             return Response.ok(seeker).build();
         }else {
             return Response.status(Response.Status.BAD_REQUEST).entity("User not registered as Seeker").type(MediaType.TEXT_PLAIN).build();

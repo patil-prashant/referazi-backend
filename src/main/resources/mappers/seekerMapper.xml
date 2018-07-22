@@ -18,7 +18,7 @@
         select * from seeker WHERE user_id=#{userId}
     </select>
     <delete id="deleteSeeker">
-        delete from seeker WHERE user_id=#{userId}
+            delete from seeker WHERE user_id=#{userId}
     </delete>
     <insert id="registerSeeker" parameterType="com.referazi.models.Seeker" useGeneratedKeys="true" keyProperty="id">
         insert into seeker(user_id, job_title, company, location) values(#{userId}, #{jobTitle}, #{company}, #{location})

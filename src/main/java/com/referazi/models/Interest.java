@@ -3,7 +3,7 @@ package com.referazi.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Skill {
+public class Interest {
     private Integer id;
     private String name;
 

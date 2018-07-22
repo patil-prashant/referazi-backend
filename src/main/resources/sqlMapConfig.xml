@@ -17,5 +17,7 @@
 		<mapper resource="mappers/messageMapper.xml"/>
 		<mapper resource="mappers/historyMapper.xml"/>
 		<mapper resource="mappers/conversationMapper.xml"/>
+		<mapper resource="mappers/skillMapper.xml"/>
+		<mapper resource="mappers/interestMapper.xml"/>
 	</mappers>
 </configuration>

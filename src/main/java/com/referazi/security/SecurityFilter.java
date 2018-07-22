@@ -63,7 +63,7 @@ public class SecurityFilter implements Filter {
             } else if (!auth.getUserId().equals(userId)) {
                 log.debug("Invalid Token");
                 response.sendError(401, "unauthorized");
-            } else if (auth.getExpiresAt().getTime() < currentTime) {
+            } else if (auth.getExpiresAt().getTime() < currentTime*1000) {
                 //TODO: expire logic to check
                 log.debug("Token Expired");
                 response.sendError(401, "unauthorized");
