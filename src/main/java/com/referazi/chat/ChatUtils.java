@@ -3,6 +3,7 @@ package com.referazi.chat;
 import com.referazi.dao.ConversationDao;
 import com.referazi.dao.HistoryDao;
 import com.referazi.dao.UserDao;
+import com.referazi.models.Peer;
 
 import javax.websocket.Session;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public class ChatUtils {
 
     private static UserDao userDao;
 
-    private static Map<Integer, Session> socketSessionMap = Collections.synchronizedMap(new HashMap<Integer, Session>());
+    private static Map<String, Session> socketSessionMap = Collections.synchronizedMap(new HashMap<String, Session>());
 
     private ChatUtils() {
 
@@ -29,16 +30,16 @@ public class ChatUtils {
         ChatUtils.userDao = userDao;
     }
 
-    public static void addSocketSession(Integer id, Session session){
-        ChatUtils.socketSessionMap.put(id, session);
+    public static void addSocketSession(String peer, Session session){
+        ChatUtils.socketSessionMap.put(peer, session);
     }
 
-    public static Session getSocketSession(Integer id){
-        return ChatUtils.socketSessionMap.get(id);
+    public static Session getSocketSession(String peer){
+        return ChatUtils.socketSessionMap.get(peer);
     }
 
-    public static void removeSocketSession(Integer id){
-        ChatUtils.socketSessionMap.remove(id);
+    public static void removeSocketSession(String peer){
+        ChatUtils.socketSessionMap.remove(peer);
     }
 
     public static HistoryDao getHistoryDao() {

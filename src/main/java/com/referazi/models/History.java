@@ -13,6 +13,8 @@ public class History {
 
     private Integer senderId;
 
+    private Integer receiverId;
+
     private Integer conversationId;
 
     private Integer messageId;
@@ -39,6 +41,14 @@ public class History {
 
     public void setSenderId(Integer senderId) {
         this.senderId = senderId;
+    }
+
+    public Integer getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(Integer receiverId) {
+        this.receiverId = receiverId;
     }
 
     public Integer getConversationId() {
@@ -94,6 +104,7 @@ public class History {
         return "History{" +
                 "id=" + id +
                 ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
                 ", conversationId=" + conversationId +
                 ", messageId=" + messageId +
                 ", message='" + message + '\'' +

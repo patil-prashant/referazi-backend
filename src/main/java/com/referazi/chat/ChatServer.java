@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import javax.websocket.*;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 
-@ServerEndpoint("/messenger/{receiver}")
+@ServerEndpoint("/messenger")
 @ApplicationScope
 public class ChatServer {
 
@@ -24,22 +23,24 @@ public class ChatServer {
     public void onOpen(Session session){
         Auth auth = SecurityUtils.getAuthDetails();
         log.info("{} connected",auth.getUserId());
-        ChatUtils.addSocketSession(auth.getUserId(), session);
+        ChatUtils.addSocketSession(auth.getUserId().toString(), session);
         ChatUtils.getUserDao().updateOnlineStatus(true, auth.getUserId());
     }
 
     @OnClose
     public void onClose(){
         Auth auth = SecurityUtils.getAuthDetails();
-        ChatUtils.removeSocketSession(auth.getUserId());
+        ChatUtils.removeSocketSession(auth.getUserId().toString());
         ChatUtils.getUserDao().updateOnlineStatus(false, auth.getUserId());
         log.info("Closed Connection for {}...", auth.getUserId());
     }
 
     @OnMessage
-    public void onMessage(String textMessageHistory, @PathParam("receiver")Integer receiver) throws IOException, EncodeException {
+    public void onMessage(String textMessageHistory) throws IOException, EncodeException {
         History history = new Gson().fromJson(textMessageHistory, History.class);
+        Integer receiver = history.getReceiverId();
         Auth auth = SecurityUtils.getAuthDetails();
+        history.setSenderId(auth.getUserId());
         Conversation conversation = ChatUtils.getConversationDao().getConversation(auth.getUserId(), receiver);
         if (conversation == null){
             conversation = new Conversation();
@@ -49,7 +50,7 @@ public class ChatServer {
             conversation = ChatUtils.getConversationDao().getConversation(auth.getUserId(), receiver);
         }
         history.setConversationId(conversation.getId());
-        Session socketSession = ChatUtils.getSocketSession(receiver);
+        Session socketSession = ChatUtils.getSocketSession(receiver.toString());
         if (socketSession != null) {
             history.setReadStatus(true);
             ChatUtils.getHistoryDao().insertMessageHistory(history);
@@ -57,6 +58,7 @@ public class ChatServer {
             socketSession.getBasicRemote().sendText(new Gson().toJson(history).toString());
         }else {
             history.setReadStatus(false);
+            history.setReceiverId(null);
             ChatUtils.getHistoryDao().insertMessageHistory(history);
         }
     }
