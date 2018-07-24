@@ -126,7 +126,7 @@
 
 
       // Create a new WebSocket.
-      var socket = new WebSocket('ws://localhost:8080/referazi/messenger/1?authorization=4338e683-2419-47ea-adfe-64f6702d816f');
+      var socket = new WebSocket('ws://localhost:8080/referazi/messenger?authorization=5e8cff45-f64d-495c-8b9d-55f9c35c9ac6');
 
       // Handle any errors that occur.
       socket.onerror = function(error) {
@@ -144,7 +144,7 @@
       // Handle messages sent by the server.
       socket.onmessage = function(event) {
         var message = event.data;
-        messagesList.innerHTML += '<li class="received"><span>Received:</span>' + text + '</li>';
+        messagesList.innerHTML += '<li class="received"><span>Received:</span>' + message + '</li>';
       };
 
 
@@ -159,7 +159,7 @@
       form.onsubmit = function(e) {
         e.preventDefault();
 
-        var text = '{"senderId":5, "messageId":1}'
+        var text = '{"receiverId":1, "messageId":2}'
 
         var message = JSON.parse(text);
 
@@ -171,7 +171,7 @@
         socket.send(text);
 
         // Add the message to the messages list.
-        messagesList.innerHTML += '<li class="sent"><span>Sent:</span>' + message + '</li>';
+        messagesList.innerHTML += '<li class="sent"><span>Sent:</span>' + text + '</li>';
 
         // Clear out the message field.
         messageField.value = '';

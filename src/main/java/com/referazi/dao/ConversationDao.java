@@ -1,10 +1,7 @@
 package com.referazi.dao;
 
 import com.referazi.models.Conversation;
-import com.referazi.models.Message;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 public interface ConversationDao {
 

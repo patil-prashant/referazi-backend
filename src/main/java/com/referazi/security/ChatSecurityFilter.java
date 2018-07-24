@@ -69,8 +69,9 @@ public class ChatSecurityFilter implements Filter {
         if (auth == null) {
             log.debug("User not found");
             response.sendError(401, "unauthorized");
-        } else if (auth.getExpiresAt().getTime() < currentTime) {
-            //TODO: expire logic to check
+        } else if (auth.getExpiresAt().getTime() < currentTime*1000) {
+            sessionProvider.removeSession(token);
+            securityDao.deleteUserToken(auth.getUserId(), token);
             log.debug("Token Expired");
             response.sendError(401, "unauthorized");
         } else {

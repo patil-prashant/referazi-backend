@@ -3,7 +3,6 @@ package com.referazi.chat;
 import com.referazi.dao.ConversationDao;
 import com.referazi.dao.HistoryDao;
 import com.referazi.dao.UserDao;
-import com.referazi.models.Peer;
 
 import javax.websocket.Session;
 import java.util.Collections;

@@ -1,7 +1,6 @@
 package com.referazi.dao;
 
 import com.referazi.models.History;
-import com.referazi.models.Message;
 
 import java.util.List;
 

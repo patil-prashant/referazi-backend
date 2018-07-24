@@ -1,12 +1,10 @@
 package com.referazi.chat;
 
+import com.referazi.models.ProfileType;
 import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -21,10 +19,22 @@ public class ChatController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/message")
-    public Response getMessageList(){
+    @Path("/queries")
+    public Response getQueriesList(@QueryParam("profile-type")String profileType){
         try {
-            return chatService.getMessageList();
+            return chatService.getQueryList(ProfileType.valueOf(profileType));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return serverError().entity(e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/answers/{queryId}")
+    public Response getAnswerList(@PathParam("queryId")Integer queryId){
+        try {
+            return chatService.getAnswerList(queryId);
         } catch (Exception e) {
             e.printStackTrace();
             return serverError().entity(e.getMessage()).build();

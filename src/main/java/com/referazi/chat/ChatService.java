@@ -2,10 +2,11 @@ package com.referazi.chat;
 
 import com.referazi.dao.ConversationDao;
 import com.referazi.dao.HistoryDao;
-import com.referazi.dao.MessageDao;
+import com.referazi.dao.QueryAnswerDao;
 import com.referazi.dao.UserDao;
 import com.referazi.models.Auth;
 import com.referazi.models.Conversation;
+import com.referazi.models.ProfileType;
 import com.referazi.models.User;
 import com.referazi.security.SecurityUtils;
 import com.referazi.security.SessionProvider;
@@ -30,8 +31,8 @@ public class ChatService {
     HistoryDao historyDao;
 
     @Autowired
-    @Qualifier("messageDao")
-    MessageDao messageDao;
+    @Qualifier("queryAnswerDao")
+    QueryAnswerDao queryAnswerDao;
 
     @Autowired
     @Qualifier("sessionProvider")
@@ -80,13 +81,23 @@ public class ChatService {
         return Response.ok(userDao.getConversationContactList(user.getId()), MediaType.APPLICATION_JSON).build();
     }
 
-    public Response getMessageList() {
+    public Response getQueryList(ProfileType profileType) {
         User user = SecurityUtils.getUser();
 
         if (user == null){
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not found").type(MediaType.TEXT_PLAIN).build();
         }
 
-        return Response.ok(messageDao.getMessages(), MediaType.APPLICATION_JSON).build();
+        return Response.ok(queryAnswerDao.getQueries(profileType), MediaType.APPLICATION_JSON).build();
+    }
+
+    public Response getAnswerList(Integer queryId) {
+        User user = SecurityUtils.getUser();
+
+        if (user == null){
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User not found").type(MediaType.TEXT_PLAIN).build();
+        }
+
+        return Response.ok(queryAnswerDao.getAnswers(queryId), MediaType.APPLICATION_JSON).build();
     }
 }

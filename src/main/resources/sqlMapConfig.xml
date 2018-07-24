@@ -14,7 +14,7 @@
 		<mapper resource="mappers/bloggerMapper.xml"/>
 		<mapper resource="mappers/seekerMapper.xml"/>
 		<mapper resource="mappers/providerMapper.xml"/>
-		<mapper resource="mappers/messageMapper.xml"/>
+		<mapper resource="mappers/queryAnswerMapper.xml"/>
 		<mapper resource="mappers/historyMapper.xml"/>
 		<mapper resource="mappers/conversationMapper.xml"/>
 		<mapper resource="mappers/skillMapper.xml"/>
