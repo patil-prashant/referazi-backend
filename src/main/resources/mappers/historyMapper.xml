@@ -20,8 +20,8 @@
     </select>
 
     <insert id="insertMessageHistory" parameterType="com.referazi.models.History" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into history(sender_id, conversation_id, message_id, read_status)
-            values(#{senderId},#{conversationId},#{messageId}, #{readStatus})
+        insert into history(sender_id, conversation_id, message_id, read_status, created_at)
+            values(#{senderId},#{conversationId},#{messageId}, #{readStatus}, CURRENT_TIMESTAMP())
     </insert>
 
     <select id="getHistoryMessageById" resultMap="historyResultMap">
@@ -30,7 +30,7 @@
     </select>
 
     <update id="markUnReadAsRead">
-        update history set read_status=true where conversation_id=#{conversationId} and read_status=false
+        update history set read_status=true, updated_at=CURRENT_TIMESTAMP() where conversation_id=#{conversationId} and read_status=false
     </update>
 
 </mapper>
