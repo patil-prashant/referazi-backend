@@ -14,7 +14,7 @@
     </select>
 
     <select id="getAnswers" resultMap="messageResultMap">
-        select m.* from message m inner join messagePair mp on mp.query_id=#{queryId} and m.id=mp.answer_id and m.isAnswer=true
+        select m.* from message m inner join messagepair mp on mp.query_id=#{queryId} and m.id=mp.answer_id and m.isAnswer=true
     </select>
 
     <insert id="insertQuery" parameterType="com.referazi.models.Message" useGeneratedKeys="true" keyProperty="id">

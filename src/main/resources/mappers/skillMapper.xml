@@ -17,26 +17,26 @@
     </insert>
 
     <select id="getProviderSkills" resultMap="skillResultMap">
-        select s.* from providerSkill ps inner join skill s on ps.skill_id=s.id and ps.user_id=#{userId}
+        select s.* from providerskill ps inner join skill s on ps.skill_id=s.id and ps.user_id=#{userId}
     </select>
 
     <insert id="insertProviderSkills">
-        insert into providerSkill(user_id, skill_id) values(#{userId}, #{skillId})
+        insert into providerskill(user_id, skill_id) values(#{userId}, #{skillId})
     </insert>
 
     <select id="getSeekerSkills" resultMap="skillResultMap">
-        select s.* from seekerSkill ss inner join skill s on ss.skill_id=s.id and ss.user_id=#{userId}
+        select s.* from seekerskill ss inner join skill s on ss.skill_id=s.id and ss.user_id=#{userId}
     </select>
 
     <insert id="insertSeekerSkills">
-        insert into seekerSkill(user_id, skill_id) values(#{userId}, #{skillId})
+        insert into seekerskill(user_id, skill_id) values(#{userId}, #{skillId})
     </insert>
 
     <delete id="deleteProviderSkills">
-        delete from providerSkill where user_id=#{userId}
+        delete from providerskill where user_id=#{userId}
     </delete>
 
     <delete id="deleteSeekerSkills">
-        delete from seekerSkill where user_id=#{userId}
+        delete from seekerskill where user_id=#{userId}
     </delete>
 </mapper>

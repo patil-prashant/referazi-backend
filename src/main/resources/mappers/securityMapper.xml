@@ -9,15 +9,15 @@
         <result column="expires_at" property="expiresAt" />
     </resultMap>
     <select id="getAuthDetails" resultType="com.referazi.models.Auth" resultMap="tokenResultMap">
-        SELECT * FROM USERTOKEN WHERE USER_ID = #{userId} AND TOKEN = #{token}
+        SELECT * FROM usertoken WHERE USER_ID = #{userId} AND TOKEN = #{token}
     </select>
     <select id="getAuthDetailsByToken" resultType="com.referazi.models.Auth" resultMap="tokenResultMap">
-        SELECT * FROM USERTOKEN WHERE TOKEN = #{token}
+        SELECT * FROM usertoken WHERE TOKEN = #{token}
     </select>
     <insert id="insertUserToken">
-        INSERT INTO USERTOKEN (USER_ID, TOKEN) values(#{userId}, #{token})
+        INSERT INTO usertoken (USER_ID, TOKEN) values(#{userId}, #{token})
     </insert>
     <delete id="deleteUserToken">
-        DELETE FROM USERTOKEN WHERE USER_ID = #{userId} AND TOKEN = #{token}
+        DELETE FROM usertoken WHERE USER_ID = #{userId} AND TOKEN = #{token}
     </delete>
 </mapper>
