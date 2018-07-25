@@ -15,7 +15,7 @@
         SELECT * FROM usertoken WHERE TOKEN = #{token}
     </select>
     <insert id="insertUserToken">
-        INSERT INTO usertoken (USER_ID, TOKEN) values(#{userId}, #{token})
+        INSERT INTO usertoken (USER_ID, TOKEN, created_at) values(#{userId}, #{token}, CURRENT_TIMESTAMP)
     </insert>
     <delete id="deleteUserToken">
         DELETE FROM usertoken WHERE USER_ID = #{userId} AND TOKEN = #{token}
