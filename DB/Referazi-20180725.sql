@@ -36,16 +36,6 @@ CREATE TABLE `blog` (
   CONSTRAINT `blog_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `blog`
---
-
-LOCK TABLES `blog` WRITE;
-/*!40000 ALTER TABLE `blog` DISABLE KEYS */;
-INSERT INTO `blog` VALUES (3,1,'Demo2','demooooo','2018-07-10 03:13:54','2018-07-10 03:13:54','/Users/prashantpatil/Images/aadhar-card.png'),(4,1,'Demo3','demooooo1','2018-07-11 02:42:56','2018-07-11 02:42:56','/Users/prashantpatil/Images/aadhar-card.png'),(5,1,'Demo3','demooooo1','2018-07-11 04:02:16','2018-07-11 04:02:16','/Users/prashantpatil/Images/hope1.rdp'),(6,1,'Demo3','demooooo1','2018-07-11 16:57:09','2018-07-11 16:57:09','/Users/prashantpatil/Images/hope1.rdp'),(7,1,'Demo3','demooooo1','2018-07-11 17:57:28','2018-07-11 17:57:28','/Users/prashantpatil/Images/hope1.rdp');
-/*!40000 ALTER TABLE `blog` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -100,18 +90,8 @@ CREATE TABLE `blogger` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
   CONSTRAINT `user.id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `blogger`
---
-
-LOCK TABLES `blogger` WRITE;
-/*!40000 ALTER TABLE `blogger` DISABLE KEYS */;
-INSERT INTO `blogger` VALUES (3,1,'2018-07-11 03:51:02','2018-07-11 03:51:02');
-/*!40000 ALTER TABLE `blogger` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -151,6 +131,172 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `bloggerinterest`
+--
+
+DROP TABLE IF EXISTS `bloggerinterest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bloggerinterest` (
+  `user_id` int(11) NOT NULL,
+  `interest_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`interest_id`),
+  KEY `bloggerinterest_interestId_idx` (`interest_id`),
+  CONSTRAINT `bloggerinterest_interestId` FOREIGN KEY (`interest_id`) REFERENCES `interest` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `bloggerinterest_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `conversation`
+--
+
+DROP TABLE IF EXISTS `conversation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `conversation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user1_id` int(11) NOT NULL,
+  `user2_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `msgReceiverId_idx` (`user1_id`,`user2_id`),
+  KEY `msgSenderId_idx` (`user1_id`,`user2_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `referazi`.`conversation_createdAt` BEFORE INSERT ON `conversation` FOR EACH ROW
+BEGIN
+		SET new.created_at = UTC_TIMESTAMP();
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `history`
+--
+
+DROP TABLE IF EXISTS `history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sender_id` int(11) NOT NULL,
+  `conversation_id` int(11) NOT NULL,
+  `message_id` int(11) NOT NULL,
+  `read_status` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `history_conv_id_idx` (`conversation_id`),
+  KEY `history_sender_id_idx` (`sender_id`),
+  KEY `history_messageId_idx` (`message_id`),
+  CONSTRAINT `history_conv_id` FOREIGN KEY (`conversation_id`) REFERENCES `conversation` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `history_messageId` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `history_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `referazi`.`history_createdAt` BEFORE INSERT ON `history` FOR EACH ROW
+BEGIN
+		SET new.created_at = UTC_TIMESTAMP();
+		SET new.updated_at = UTC_TIMESTAMP();
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `referazi`.`history_updatedAt` BEFORE UPDATE ON `history` FOR EACH ROW
+BEGIN
+		SET new.updated_at = UTC_TIMESTAMP();
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `interest`
+--
+
+DROP TABLE IF EXISTS `interest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `interest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `message`
+--
+
+DROP TABLE IF EXISTS `message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profile_type` enum('seeker','provider') DEFAULT NULL,
+  `title` varchar(45) NOT NULL,
+  `description` varchar(1024) NOT NULL,
+  `isQuery` tinyint(4) NOT NULL,
+  `isAnswer` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `messagepair`
+--
+
+DROP TABLE IF EXISTS `messagepair`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `messagepair` (
+  `query_id` int(11) NOT NULL,
+  `answer_id` int(11) NOT NULL,
+  PRIMARY KEY (`query_id`,`answer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `provider`
 --
 
@@ -167,18 +313,8 @@ CREATE TABLE `provider` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
   CONSTRAINT `userid_provider` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `provider`
---
-
-LOCK TABLES `provider` WRITE;
-/*!40000 ALTER TABLE `provider` DISABLE KEYS */;
-INSERT INTO `provider` VALUES (1,1,'Pune','2018-07-13 03:30:05','2018-07-13 03:30:05');
-/*!40000 ALTER TABLE `provider` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -218,6 +354,23 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `providerskill`
+--
+
+DROP TABLE IF EXISTS `providerskill`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `providerskill` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `skill_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`skill_id`),
+  KEY `providerskill_skillId_idx` (`skill_id`),
+  CONSTRAINT `providerskill_skillId` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `providerskill_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `seeker`
 --
 
@@ -236,18 +389,8 @@ CREATE TABLE `seeker` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
   CONSTRAINT `id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `seeker`
---
-
-LOCK TABLES `seeker` WRITE;
-/*!40000 ALTER TABLE `seeker` DISABLE KEYS */;
-INSERT INTO `seeker` VALUES (3,1,'Developer','Google','Pune','2018-07-12 19:15:55','2018-07-12 19:15:55');
-/*!40000 ALTER TABLE `seeker` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -287,6 +430,39 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `seekerskill`
+--
+
+DROP TABLE IF EXISTS `seekerskill`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `seekerskill` (
+  `user_id` int(11) NOT NULL,
+  `skill_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`skill_id`),
+  KEY `seekerskill_skillId_idx` (`skill_id`),
+  CONSTRAINT `seekerskill_skillId` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `seekerskill_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `skill`
+--
+
+DROP TABLE IF EXISTS `skill`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `skill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `user`
 --
 
@@ -305,22 +481,13 @@ CREATE TABLE `user` (
   `isBlogger` enum('false','true') NOT NULL DEFAULT 'false',
   `created_at` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   `updated_at` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `isOnline` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `username_UNIQUE` (`user_name`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Prashant','prashant@gmail.com','123456',NULL,'M','false','false','false','1970-01-01 00:00:00','1970-01-01 00:00:00'),(2,'Nikhil','nikhil@gmail.com','123456',NULL,'M','false','false','false','2018-07-08 14:01:40','1970-01-01 00:00:00'),(3,'Nikhil1','nikhil1@gmail.com','123456',NULL,'M','false','false','false','2018-07-08 14:04:37','1970-01-01 00:00:00');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -359,32 +526,22 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `userToken`
+-- Table structure for table `usertoken`
 --
 
-DROP TABLE IF EXISTS `userToken`;
+DROP TABLE IF EXISTS `usertoken`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `userToken` (
+CREATE TABLE `usertoken` (
   `user_id` int(11) NOT NULL,
   `token` varchar(36) NOT NULL,
   `created_at` datetime NOT NULL,
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`user_id`,`token`),
   UNIQUE KEY `token_UNIQUE` (`token`),
-  CONSTRAINT `userToken_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `usertoken_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `userToken`
---
-
-LOCK TABLES `userToken` WRITE;
-/*!40000 ALTER TABLE `userToken` DISABLE KEYS */;
-INSERT INTO `userToken` VALUES (1,'217650c1-3150-41a0-a16d-84fbcd280ee3','2018-07-10 02:52:50','2018-07-11 02:52:50'),(1,'230fe8fc-1854-4a49-815e-9919f44331e8','2018-07-10 03:05:18','2018-07-11 03:05:18'),(1,'2c6ebf12-7bc8-47ba-bb67-c851877b9a9d','2018-07-09 19:48:39','2018-07-10 19:48:39'),(1,'34755e5d-30e0-4d14-9844-adc9ef52df4b','2018-07-11 16:56:07','2018-07-12 16:56:07'),(1,'3a261605-4884-45c0-bd88-e4a0ff39877c','2018-07-10 02:58:35','2018-07-11 02:58:35'),(1,'3a673c5d-6424-4f56-99ff-58f74d46fa28','2018-07-09 19:45:05','2018-07-10 19:45:05'),(1,'6dac4db4-7dee-40d4-a20d-0fd397e93b92','2018-07-11 03:53:28','2018-07-12 03:53:28'),(1,'6f3b3d92-d579-4a97-8bcb-61e9fc69880e','2018-07-11 02:42:14','2018-07-12 02:42:14'),(1,'c280558f-6dd3-40ce-afb0-7e754ffdf3b0','2018-07-09 19:56:17','2018-07-10 19:56:17'),(1,'db8d435b-492c-40a0-9bce-6efc3b976165','2018-07-11 03:54:16','2018-07-12 03:54:16');
-/*!40000 ALTER TABLE `userToken` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -394,12 +551,12 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `referazi`.`userToken_createDate` BEFORE INSERT ON `userToken` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `referazi`.`usertoken_createDate` BEFORE INSERT ON `usertoken` FOR EACH ROW
 BEGIN
 
 		SET new.created_at = UTC_TIMESTAMP();
 		SET new.expires_at = DATE_ADD(UTC_TIMESTAMP(), INTERVAL 24 HOUR);
-    
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -424,4 +581,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-13  9:09:57
+-- Dump completed on 2018-07-25 20:03:56
