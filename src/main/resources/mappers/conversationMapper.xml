@@ -19,7 +19,7 @@
     </select>
 
     <insert id="createConversation" parameterType="com.referazi.models.Conversation" useGeneratedKeys="true" keyProperty="id">
-        insert into conversation(user1_id, user2_id) values(#{user1Id}, #{user2Id})
+        insert into conversation(user1_id, user2_id, created_at) values(#{user1Id}, #{user2Id}, CURRENT_TIMESTAMP())
     </insert>
 
 </mapper>
