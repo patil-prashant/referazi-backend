@@ -17,6 +17,6 @@ public interface UserDao
     void updateProviderStatus(@Param("status")String status, @Param("id")Integer id);
     void updateBloggerStatus(@Param("status")String status, @Param("id")Integer id);
     void updateOnlineStatus(@Param("status")Boolean status, @Param("id")Integer id);
-    List<User> getProviderUserList();
+    List<User> getProviderUserList(@Param("id")Integer id);
     List<User> getConversationContactList(@Param("id")Integer id);
 }

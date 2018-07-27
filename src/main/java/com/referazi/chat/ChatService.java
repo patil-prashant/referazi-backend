@@ -67,7 +67,7 @@ public class ChatService {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not found").type(MediaType.TEXT_PLAIN).build();
         }
 
-        return Response.ok(userDao.getProviderUserList(), MediaType.APPLICATION_JSON).build();
+        return Response.ok(userDao.getProviderUserList(user.getId()), MediaType.APPLICATION_JSON).build();
     }
 
     public Response getConversationContactList(){
