@@ -131,19 +131,19 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `bloggerinterest`
+-- Table structure for table `bloggerInterest`
 --
 
-DROP TABLE IF EXISTS `bloggerinterest`;
+DROP TABLE IF EXISTS `bloggerInterest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bloggerinterest` (
+CREATE TABLE `bloggerInterest` (
   `user_id` int(11) NOT NULL,
   `interest_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`interest_id`),
-  KEY `bloggerinterest_interestId_idx` (`interest_id`),
-  CONSTRAINT `bloggerinterest_interestId` FOREIGN KEY (`interest_id`) REFERENCES `interest` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `bloggerinterest_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `bloggerInterest_interestId_idx` (`interest_id`),
+  CONSTRAINT `bloggerInterest_interestId` FOREIGN KEY (`interest_id`) REFERENCES `interest` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `bloggerInterest_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -158,7 +158,7 @@ CREATE TABLE `conversation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user1_id` int(11) NOT NULL,
   `user2_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `msgReceiverId_idx` (`user1_id`,`user2_id`),
@@ -196,9 +196,10 @@ CREATE TABLE `history` (
   `sender_id` int(11) NOT NULL,
   `conversation_id` int(11) NOT NULL,
   `message_id` int(11) NOT NULL,
+  `message_text` varchar(1024) NOT NULL,
   `read_status` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `updated_at` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `history_conv_id_idx` (`conversation_id`),
@@ -207,7 +208,7 @@ CREATE TABLE `history` (
   CONSTRAINT `history_conv_id` FOREIGN KEY (`conversation_id`) REFERENCES `conversation` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `history_messageId` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `history_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -260,7 +261,7 @@ CREATE TABLE `interest` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,13 +284,13 @@ CREATE TABLE `message` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `messagepair`
+-- Table structure for table `messagePair`
 --
 
-DROP TABLE IF EXISTS `messagepair`;
+DROP TABLE IF EXISTS `messagePair`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `messagepair` (
+CREATE TABLE `messagePair` (
   `query_id` int(11) NOT NULL,
   `answer_id` int(11) NOT NULL,
   PRIMARY KEY (`query_id`,`answer_id`)
@@ -354,19 +355,19 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `providerskill`
+-- Table structure for table `providerSkill`
 --
 
-DROP TABLE IF EXISTS `providerskill`;
+DROP TABLE IF EXISTS `providerSkill`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `providerskill` (
+CREATE TABLE `providerSkill` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `skill_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`skill_id`),
-  KEY `providerskill_skillId_idx` (`skill_id`),
-  CONSTRAINT `providerskill_skillId` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `providerskill_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `providerSkill_skillId_idx` (`skill_id`),
+  CONSTRAINT `providerSkill_skillId` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `providerSkill_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -430,19 +431,19 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `seekerskill`
+-- Table structure for table `seekerSkill`
 --
 
-DROP TABLE IF EXISTS `seekerskill`;
+DROP TABLE IF EXISTS `seekerSkill`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `seekerskill` (
+CREATE TABLE `seekerSkill` (
   `user_id` int(11) NOT NULL,
   `skill_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`skill_id`),
-  KEY `seekerskill_skillId_idx` (`skill_id`),
-  CONSTRAINT `seekerskill_skillId` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `seekerskill_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `seekerSkill_skillId_idx` (`skill_id`),
+  CONSTRAINT `seekerSkill_skillId` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `seekerSkill_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -526,20 +527,20 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `usertoken`
+-- Table structure for table `userToken`
 --
 
-DROP TABLE IF EXISTS `usertoken`;
+DROP TABLE IF EXISTS `userToken`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `usertoken` (
+CREATE TABLE `userToken` (
   `user_id` int(11) NOT NULL,
   `token` varchar(36) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `expires_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `expires_at` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   PRIMARY KEY (`user_id`,`token`),
   UNIQUE KEY `token_UNIQUE` (`token`),
-  CONSTRAINT `usertoken_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `userToken_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -551,12 +552,12 @@ CREATE TABLE `usertoken` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `referazi`.`usertoken_createDate` BEFORE INSERT ON `usertoken` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `referazi`.`userToken_createDate` BEFORE INSERT ON `userToken` FOR EACH ROW
 BEGIN
 
 		SET new.created_at = UTC_TIMESTAMP();
 		SET new.expires_at = DATE_ADD(UTC_TIMESTAMP(), INTERVAL 24 HOUR);
-
+    
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -581,4 +582,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-25 20:03:56
+-- Dump completed on 2018-08-11 15:47:45

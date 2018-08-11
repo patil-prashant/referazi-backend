@@ -7,7 +7,7 @@
         <id column="id" property="id" />
         <result column="sender_id" property="senderId" />
         <result column="conversation_id" property="conversationId" />
-        <result column="message" property="message" />
+        <result column="message_text" property="message" />
         <result column="message_id" property="messageId" />
         <result column="read_status" property="readStatus"/>
         <result column="created_at" property="createdAt"/>
@@ -15,18 +15,16 @@
     </resultMap>
 
     <select id="getMessageHistory" resultMap="historyResultMap">
-        select sender_id, (select description from message where id=message_id)as message,
-        read_status, created_at from history where conversation_id=#{conversationId}
+        select sender_id, message_text, read_status, created_at from history where conversation_id=#{conversationId}
     </select>
 
     <insert id="insertMessageHistory" parameterType="com.referazi.models.History" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into history(sender_id, conversation_id, message_id, read_status, created_at)
-            values(#{senderId},#{conversationId},#{messageId}, #{readStatus}, CURRENT_TIMESTAMP())
+        insert into history(sender_id, conversation_id, message_id, message_text, read_status, created_at)
+            values(#{senderId},#{conversationId},#{messageId}, #{message}, #{readStatus}, CURRENT_TIMESTAMP())
     </insert>
 
     <select id="getHistoryMessageById" resultMap="historyResultMap">
-        select sender_id, (select description from message where id=message_id)as message,
-            read_status, created_at from history where id=#{id}
+        select sender_id, message_text, read_status, created_at from history where id=#{id}
     </select>
 
     <update id="markUnReadAsRead">
