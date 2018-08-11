@@ -29,7 +29,7 @@
         select id, user_name from user WHERE id=#{id}
     </select>
     <select id="getProviderUserList" resultMap="UserResultMap">
-        select id, user_name from user WHERE isProvider='true'
+        select id, user_name from user WHERE isProvider='true' and id!=#{id}
     </select>
     <select id="getConversationContactList" resultMap="UserResultMap">
         select id, user_name from user
