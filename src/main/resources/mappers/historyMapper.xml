@@ -14,7 +14,7 @@
         <result column="updated_at" property="updatedAt"/>
     </resultMap>
 
-    <select id="getMessageHistory" resultMap="historyResultMap"
+    <select id="getMessageHistory" resultMap="historyResultMap">
         select sender_id, message_text, read_status, created_at from history where conversation_id=#{conversationId}
     </select>
 
