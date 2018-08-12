@@ -23,6 +23,8 @@ public class History {
 
     private Boolean readStatus;
 
+    private Boolean textModeOn;
+
     private Date createdAt;
 
     private Date updatedAt;
@@ -83,6 +85,14 @@ public class History {
         this.readStatus = readStatus;
     }
 
+    public Boolean getTextModeOn() {
+        return textModeOn;
+    }
+
+    public void setTextModeOn(Boolean textModeOn) {
+        this.textModeOn = textModeOn;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -109,6 +119,7 @@ public class History {
                 ", messageId=" + messageId +
                 ", message='" + message + '\'' +
                 ", readStatus=" + readStatus +
+                ", textModeOn=" + textModeOn +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

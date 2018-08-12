@@ -7,7 +7,9 @@
         <id column="id" property="id" />
         <result column="user1_id" property="user1Id" />
         <result column="user2_id" property="user2Id" />
+        <result column="text_mode_on" property="textModeOn"/>
         <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
     </resultMap>
 
     <select id="getConversation" resultMap="conversationResultMap">
@@ -19,7 +21,11 @@
     </select>
 
     <insert id="createConversation" parameterType="com.referazi.models.Conversation" useGeneratedKeys="true" keyProperty="id">
-        insert into conversation(user1_id, user2_id, created_at) values(#{user1Id}, #{user2Id}, CURRENT_TIMESTAMP())
+        insert into conversation(user1_id, user2_id, text_mode_on, created_at, updated_at) values(#{user1Id}, #{user2Id}, #{textModeOn}, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())
     </insert>
+
+    <update id="updateTextMode" parameterType="com.referazi.models.Conversation">
+        update conversation set text_mode_on=#{textModeOn}, updated_at=CURRENT_TIMESTAMP() where (user1_id=#{user1Id} and user2_id=#{user2Id}) or (user1_id=#{user2Id} and user2_id=#{user1Id})
+    </update>
 
 </mapper>

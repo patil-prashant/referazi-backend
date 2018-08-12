@@ -42,13 +42,22 @@ public class ChatServer {
         Auth auth = SecurityUtils.getAuthDetails();
         history.setSenderId(auth.getUserId());
         Conversation conversation = ChatUtils.getConversationDao().getConversation(auth.getUserId(), receiver);
+
         if (conversation == null){
             conversation = new Conversation();
             conversation.setUser1Id(auth.getUserId());
             conversation.setUser2Id(receiver);
+            conversation.setTextModeOn(true);
             ChatUtils.getConversationDao().createConversation(conversation);
             conversation = ChatUtils.getConversationDao().getConversation(auth.getUserId(), receiver);
         }
+
+        if(history.getTextModeOn() != conversation.getTextModeOn())
+        {
+            conversation.setTextModeOn(history.getTextModeOn());
+            ChatUtils.getConversationDao().updateTextMode(conversation);
+        }
+
         history.setConversationId(conversation.getId());
         Session socketSession = ChatUtils.getSocketSession(receiver.toString());
         if (socketSession != null) {

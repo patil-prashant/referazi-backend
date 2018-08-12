@@ -15,7 +15,10 @@ public class Conversation {
     private Integer user2Id;
     private User user2;
     private List<History> messages;
+    private Boolean textModeOn;
     private Date createdAt;
+    private Date updatedAt;
+
 
     public Integer getId() {
         return id;
@@ -49,7 +52,6 @@ public class Conversation {
         this.createdAt = createdAt;
     }
 
-
     public User getUser1() {
         return user1;
     }
@@ -74,6 +76,22 @@ public class Conversation {
         this.messages = messages;
     }
 
+    public Boolean getTextModeOn() {
+        return textModeOn;
+    }
+
+    public void setTextModeOn(Boolean textModeOn) {
+        this.textModeOn = textModeOn;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public String toString() {
         return "Conversation{" +
@@ -83,7 +101,9 @@ public class Conversation {
                 ", user2Id=" + user2Id +
                 ", user2=" + user2 +
                 ", messages=" + messages +
+                ", textModeOn=" + textModeOn +
                 ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

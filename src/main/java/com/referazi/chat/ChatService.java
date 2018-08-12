@@ -46,10 +46,7 @@ public class ChatService {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not found").type(MediaType.TEXT_PLAIN).build();
         }
 
-        Conversation conversation = new Conversation();
-        conversation.setId(conversationDao.getConversationId(user.getId(), receiver));
-        conversation.setUser1(userDao.getMinUserDetails(user.getId()));
-        conversation.setUser2(userDao.getMinUserDetails(receiver));
+        Conversation conversation = conversationDao.getConversation(user.getId(), receiver);
         if(conversation != null){
             conversation.setMessages(historyDao.getMessageHistory(conversation.getId()));
             historyDao.markUnReadAsRead(conversation.getId());

@@ -11,4 +11,5 @@ public interface ConversationDao {
 
     Integer getConversationId(@Param("user1Id") Integer user1Id, @Param("user2Id") Integer user2Id);
 
+    void updateTextMode(Conversation conversation);
 }
