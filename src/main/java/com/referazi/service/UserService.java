@@ -1,10 +1,12 @@
 package com.referazi.service;
 
 import com.referazi.dao.SecurityDao;
+import com.referazi.dao.TransactionDao;
 import com.referazi.dao.UserDao;
 import com.referazi.manager.SecurityManager;
 import com.referazi.models.Auth;
 import com.referazi.models.Login;
+import com.referazi.models.Transaction;
 import com.referazi.models.User;
 import com.referazi.security.SecurityUtils;
 import com.referazi.security.SessionProvider;
@@ -20,6 +22,10 @@ public class UserService {
     @Autowired
     @Qualifier("userDao")
     UserDao userDao;
+
+    @Autowired
+    @Qualifier("transactionDao")
+    TransactionDao transactionDao;
 
     @Autowired
     @Qualifier("securityDao")
@@ -61,6 +67,7 @@ public class UserService {
             auth.setToken(token);
             //TODO: manage transactional
             securityDao.insertUserToken(user.getId(), token);
+            transactionDao.insertTransaction(new Transaction(0,user.getId(), 1));
             auth = securityDao.getAuthDetails(user.getId(), token);
             auth.setUser(user);
             sessionProvider.addSession(token,auth);

@@ -34,7 +34,15 @@
 
     <bean id="chatController" class="com.referazi.chat.ChatController"/>
 
+    <bean id="actionController" class="com.referazi.controller.ActionController"/>
+
     <bean id="chatService" class="com.referazi.chat.ChatService"/>
+
+    <bean id="actionService" class="com.referazi.service.ActionService"/>
+
+    <bean id="transactionController" class="com.referazi.controller.TransactionController"/>
+
+    <bean id="transactionService" class="com.referazi.service.TransactionService"/>
 
     <bean id="sessionProvider" class="com.referazi.security.SessionProvider">
         <constructor-arg>

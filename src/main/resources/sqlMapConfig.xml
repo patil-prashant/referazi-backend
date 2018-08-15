@@ -19,5 +19,7 @@
 		<mapper resource="mappers/conversationMapper.xml"/>
 		<mapper resource="mappers/skillMapper.xml"/>
 		<mapper resource="mappers/interestMapper.xml"/>
+		<mapper resource="mappers/actionMapper.xml"/>
+		<mapper resource="mappers/transactionMapper.xml"/>
 	</mappers>
 </configuration>

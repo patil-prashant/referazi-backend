@@ -47,6 +47,9 @@ public class ChatService {
         }
 
         Conversation conversation = conversationDao.getConversation(user.getId(), receiver);
+//        conversation.setId(conversationDao.getConversationId(user.getId(), receiver));
+//        conversation.setUser1(userDao.getMinUserDetails(user.getId()));
+//        conversation.setUser2(userDao.getMinUserDetails(receiver));
         if(conversation != null){
             conversation.setMessages(historyDao.getMessageHistory(conversation.getId()));
             historyDao.markUnReadAsRead(conversation.getId());

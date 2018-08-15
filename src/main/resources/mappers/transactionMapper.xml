@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.referazi.dao.TransactionDao">
+
+    <resultMap id="transactionResultMap" type="com.referazi.models.Transaction">
+        <id column="id" property="id"/>
+        <result column="points" property="points"/>
+        <result column="created_at" property="createdAt"/>
+        <collection property="debtor" ofType="com.referazi.models.User">
+            <id column="debtor_id" property="id"/>
+            <result column="debtor_name" property="name"/>
+        </collection>
+        <collection property="creditor" ofType="com.referazi.models.User">
+            <id column="creditor_id" property="id"/>
+            <result column="creditor_name" property="name"/>
+        </collection>
+        <collection property="action" ofType="com.referazi.models.Action">
+            <id column="action_id" property="id" />
+            <result column="action_name" property="action"/>
+        </collection>
+    </resultMap>
+
+    <select id="getTransactionsOfUser" resultMap="transactionResultMap">
+        select t.id, d.id as debtor_id, d.user_name as debtor_name,
+        c.id as creditor_id, c.user_name as creditor_name, t.points,
+        a.id as action_id, a.action as action_name
+        from transaction t
+        join user d on t.debtor=d.id and (t.debtor = #{userId} or t.debtor=0)
+        join user c on t.creditor=c.id and (t.creditor = #{userId} or t.creditor=0)
+        join actionType a on t.action_id = a.id
+    </select>
+
+    <select id="getPointsOfUser" resultType="java.lang.Integer">
+        select sum(CASE
+        WHEN
+        creditor=#{userId} THEN points
+        ELSE 0
+        END)-
+        sum(CASE
+        WHEN
+        debtor=#{userId} THEN points
+        ELSE 0
+        END)
+        from transaction where debtor=#{userId} or creditor=#{userId}
+    </select>
+
+    <insert id="insertTransaction" parameterType="com.referazi.models.Transaction" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into transaction(debtor, creditor, points, action_id) values(#{debtorId}, #{creditorId},
+        (select points from actionType where id=#{actionId}), #{actionId})
+    </insert>
+
+</mapper>
