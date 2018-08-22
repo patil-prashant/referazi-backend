@@ -3,10 +3,7 @@ package com.referazi.service;
 import com.referazi.dao.ActionDao;
 import com.referazi.dao.TransactionDao;
 import com.referazi.dao.UserDao;
-import com.referazi.models.Action;
-import com.referazi.models.Transaction;
-import com.referazi.models.User;
-import com.referazi.models.Wallet;
+import com.referazi.models.*;
 import com.referazi.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -48,11 +45,11 @@ public class TransactionService {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User not found.").type(MediaType.TEXT_PLAIN).build();
         }
 
-        if(!transaction.getCreditorId().equals(user.getId()) && !transaction.getDebtorId().equals(user.getId())){
-            return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect debtor or creditor.").type(MediaType.TEXT_PLAIN).build();
+        if(!transaction.getUserId().equals(user.getId())){
+            return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect UserId.").type(MediaType.TEXT_PLAIN).build();
         }
 
-        if(transaction.getDebtorId().equals(user.getId()) && !isSufficientBalance(user.getId(), transaction.getActionId())){
+        if(transaction.getType().equals(TransactionType.DEBIT) && !isSufficientBalance(user.getId(), transaction.getActionId())){
             return Response.status(Response.Status.BAD_REQUEST).entity("Insufficient balance.").type(MediaType.TEXT_PLAIN).build();
         }
 

@@ -12,13 +12,15 @@ public class Transaction {
 
     private Integer id;
 
-    private Integer debtorId;
+    private Integer userId;
 
-    private User debtor;
+    private User user;
 
-    private Integer creditorId;
+    private Integer thirdPartyId;
 
-    private User creditor;
+    private User thirdParty;
+
+    private TransactionType type;
 
     private Integer points;
 
@@ -32,9 +34,10 @@ public class Transaction {
 
     }
 
-    public Transaction(Integer debtorId, Integer creditorId, Integer actionId) {
-        this.debtorId = debtorId;
-        this.creditorId = creditorId;
+    public Transaction(Integer userId, Integer thirdPartyId, TransactionType type, Integer actionId) {
+        this.userId = userId;
+        this.thirdPartyId = thirdPartyId;
+        this.type = type;
         this.actionId = actionId;
     }
 
@@ -46,36 +49,44 @@ public class Transaction {
         this.id = id;
     }
 
-    public Integer getDebtorId() {
-        return debtorId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setDebtorId(Integer debtorId) {
-        this.debtorId = debtorId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public User getDebtor() {
-        return debtor;
+    public User getUser() {
+        return user;
     }
 
-    public void setDebtor(User debtor) {
-        this.debtor = debtor;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getCreditorId() {
-        return creditorId;
+    public Integer getThirdPartyId() {
+        return thirdPartyId;
     }
 
-    public void setCreditorId(Integer creditorId) {
-        this.creditorId = creditorId;
+    public void setThirdPartyId(Integer thirdPartyId) {
+        this.thirdPartyId = thirdPartyId;
     }
 
-    public User getCreditor() {
-        return creditor;
+    public User getThirdParty() {
+        return thirdParty;
     }
 
-    public void setCreditor(User creditor) {
-        this.creditor = creditor;
+    public void setThirdParty(User thirdParty) {
+        this.thirdParty = thirdParty;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
     }
 
     public Action getAction() {
@@ -114,10 +125,11 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
-                ", debtorId=" + debtorId +
-                ", debtor=" + debtor +
-                ", creditorId=" + creditorId +
-                ", creditor=" + creditor +
+                ", userId=" + userId +
+                ", user=" + user +
+                ", thirdPartyId=" + thirdPartyId +
+                ", thirdParty=" + thirdParty +
+                ", type=" + type +
                 ", points=" + points +
                 ", actionId=" + actionId +
                 ", action=" + action +

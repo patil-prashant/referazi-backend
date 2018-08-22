@@ -4,10 +4,7 @@ import com.referazi.dao.SecurityDao;
 import com.referazi.dao.TransactionDao;
 import com.referazi.dao.UserDao;
 import com.referazi.manager.SecurityManager;
-import com.referazi.models.Auth;
-import com.referazi.models.Login;
-import com.referazi.models.Transaction;
-import com.referazi.models.User;
+import com.referazi.models.*;
 import com.referazi.security.SecurityUtils;
 import com.referazi.security.SessionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +64,7 @@ public class UserService {
             auth.setToken(token);
             //TODO: manage transactional
             securityDao.insertUserToken(user.getId(), token);
-            transactionDao.insertTransaction(new Transaction(0,user.getId(), 1));
+            transactionDao.insertTransaction(new Transaction(user.getId(),null,TransactionType.CREDIT,1));
             auth = securityDao.getAuthDetails(user.getId(), token);
             auth.setUser(user);
             sessionProvider.addSession(token,auth);

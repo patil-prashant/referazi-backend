@@ -4,6 +4,7 @@ import com.referazi.dao.BlogDao;
 import com.referazi.dao.TransactionDao;
 import com.referazi.models.Blog;
 import com.referazi.models.Transaction;
+import com.referazi.models.TransactionType;
 import com.referazi.models.User;
 import com.referazi.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class BlogService {
 
             blogDao.insertBlog(blog);
 
-            transactionDao.insertTransaction(new Transaction(0,user.getId(), 1));
+            transactionDao.insertTransaction(new Transaction(user.getId(),null,TransactionType.CREDIT,2));
 
         } catch (IOException e) {
 
