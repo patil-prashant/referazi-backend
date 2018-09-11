@@ -40,6 +40,9 @@
     <insert id="insertUser" parameterType="com.referazi.models.User" useGeneratedKeys="true" keyProperty="id">
         insert into user(user_name,email,password,gender,phone) values(#{name},#{email},#{password},#{gender},#{phone})
     </insert>
+    <update id="updatePassword">
+        update user set password = #{password} WHERE id = #{id}
+    </update>
     <update id="updateSeekerStatus">
         update user set isSeeker = #{status} WHERE id = #{id}
     </update>

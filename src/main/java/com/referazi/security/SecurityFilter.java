@@ -41,11 +41,12 @@ public class SecurityFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if(request.getRequestURI().endsWith("auth/login") || request.getRequestURI().endsWith("user/register")){
+        if(request.getRequestURI().endsWith("auth/login") || request.getRequestURI().endsWith("user/register") ||
+                request.getRequestURI().endsWith("auth/resetPassword") || request.getRequestURI().endsWith("auth/changePassword") ||
+                request.getRequestURI().endsWith("auth/savePassword")){
             filterChain.doFilter(servletRequest, servletResponse);
         }else {
             String token = request.getHeader("authorization");
-            Integer userId = Integer.valueOf(request.getHeader("userId"));
 
             Auth auth = (Auth) sessionProvider.getSession(token);
 
@@ -58,9 +59,6 @@ public class SecurityFilter implements Filter {
 
 
             if (auth == null) {
-                log.debug("User not found");
-                response.sendError(401, "unauthorized");
-            } else if (!auth.getUserId().equals(userId)) {
                 log.debug("Invalid Token");
                 response.sendError(401, "unauthorized");
             } else if (auth.getExpiresAt().getTime() < currentTime*1000) {
@@ -70,7 +68,7 @@ public class SecurityFilter implements Filter {
                 response.sendError(401, "unauthorized");
             } else {
                 log.debug("Authorization successfull for: " + auth.getUserId());
-                auth.setUser(userDao.findUserById(userId));
+                auth.setUser(userDao.findUserById(auth.getUserId()));
                 sessionProvider.addSession(token, auth);
                 SecurityUtils.setUserAuthInfo(auth);
                 filterChain.doFilter(servletRequest, servletResponse);

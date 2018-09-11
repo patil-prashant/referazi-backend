@@ -13,6 +13,7 @@ public interface UserDao
     User findUserByEmail(String email);
     User getMinUserDetails(Integer id);
     String getPassword(String email);
+    void updatePassword(@Param("password")String password, @Param("id")Integer id);
     void updateSeekerStatus(@Param("status")String status, @Param("id")Integer id);
     void updateProviderStatus(@Param("status")String status, @Param("id")Integer id);
     void updateBloggerStatus(@Param("status")String status, @Param("id")Integer id);

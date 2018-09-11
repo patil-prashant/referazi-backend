@@ -20,4 +20,37 @@
     <delete id="deleteUserToken">
         DELETE FROM usertoken WHERE USER_ID = #{userId} AND TOKEN = #{token}
     </delete>
+
+    <resultMap id="passResetReqResultMap" type="com.referazi.models.PasswordResetToken">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="token" property="token" />
+        <result column="created_at" property="createdAt" />
+        <result column="expires_at" property="expiresAt" />
+    </resultMap>
+
+    <resultMap id="userResultMap" type="com.referazi.models.User">
+        <id column="id" property="id" />
+        <result column="user_name" property="name" />
+        <result column="email" property="email" />
+        <result column="password" property="password" />
+        <result column="gender" property="gender" />
+        <result column="phone" property="phone" />
+        <result column="isSeeker" property="isSeeker" />
+        <result column="isProvider" property="isProvider" />
+        <result column="isBlogger" property="isBlogger" />
+    </resultMap>
+
+    <insert id="resetPassordRequest">
+        INSERT INTO passwordresetrequest (USER_ID, TOKEN) values(#{userId}, #{token})
+    </insert>
+    <select id="getPasswordResetReq" resultType="com.referazi.models.PasswordResetToken" resultMap="passResetReqResultMap">
+        SELECT * FROM passwordresetrequest WHERE USER_ID = #{userId} AND TOKEN = #{token}
+    </select>
+    <select id="getUserByPasswordResetToken" resultType="com.referazi.models.User" resultMap="userResultMap">
+        SELECT u.* FROM passwordresetrequest prr
+        INNER JOIN user u
+        ON u.ID=prr.USER_ID
+        AND TOKEN = #{token}
+    </select>
 </mapper>
