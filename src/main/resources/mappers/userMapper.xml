@@ -12,6 +12,7 @@
         <result column="isSeeker" property="isSeeker" />
         <result column="isProvider" property="isProvider" />
         <result column="isBlogger" property="isBlogger" />
+        <result column="location" property="location" />
     </resultMap>
     <select id="findAllUsers" resultMap="UserResultMap">
         select id, user_name, email, gender, phone, isSeeker, isProvider, isBlogger from user
@@ -29,10 +30,10 @@
         select id, user_name from user WHERE id=#{id}
     </select>
     <select id="getProviderUserList" resultMap="UserResultMap">
-        select id, user_name from user WHERE isProvider='true' and id!=#{id}
+        select u.id, u.user_name, (select p.location from provider as p where p.user_id = u.id) as location from user as u WHERE u.isProvider='true' and u.id!=#{id}
     </select>
     <select id="getConversationContactList" resultMap="UserResultMap">
-        select id, user_name from user
+        select id, user_name, (select s.location from seeker as s where s.user_id = user.id) as location from user as user
         WHERE id in (select c.user2_id contacts from user u inner join conversation c on u.id=c.user1_id and u.id=#{id}
         union
         select c.user1_id contacts from user u inner join conversation c on u.id=c.user2_id and u.id=#{id})

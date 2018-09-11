@@ -24,6 +24,8 @@ public class User {
 
     private String isBlogger;
 
+    private String location;
+
     public Integer getId() {
         return id;
     }
@@ -96,6 +98,13 @@ public class User {
         this.isBlogger = isBlogger;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     @Override
     public String toString() {
@@ -104,11 +113,12 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
                 ", isSeeker='" + isSeeker + '\'' +
                 ", isProvider='" + isProvider + '\'' +
                 ", isBlogger='" + isBlogger + '\'' +
+                ", location='" + location + '\'' +
                 '}';
     }
 }
