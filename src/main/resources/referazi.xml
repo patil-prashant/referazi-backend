@@ -57,8 +57,8 @@
         <!-- SMTP settings -->
         <property name="host" value="smtp.gmail.com" />
         <property name="port" value="587" />
-        <property name="username" value="prashantpatil.ws@gmail.com" />
-        <property name="password" value="nuclearbomb" />
+        <property name="username" value="akshay.durge1992@gmail.com" />
+        <property name="password" value="referazimail" />
 
         <property name="javaMailProperties">
             <!-- additional properties specific to JavaMail -->

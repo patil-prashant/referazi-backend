@@ -105,10 +105,10 @@ public class AuthService {
         javaMailSender.send(new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessageObj) throws MessagingException {
                 MimeMessageHelper messageObj = new MimeMessageHelper(mimeMessageObj, true, "UTF-8");
-                messageObj.setFrom("prashantpatil.ws@gmail.com");
-                messageObj.setTo("p3patildahanu@gmail.com");
+                messageObj.setFrom("akshay.durge1992@gmail.com");
+                messageObj.setTo(email);
                 messageObj.setSubject("Reset Password");
-                messageObj.setText(domain+basePath+"/api/auth/changePassword?id="+user.getId()+"&token="+token, true);;
+                messageObj.setText(domain+basePath+"/newpassword?id="+user.getId()+"&token="+token, true);;
             }
         });
 

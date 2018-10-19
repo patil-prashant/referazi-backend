@@ -71,11 +71,13 @@ public class AuthController {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/savePassword")
-    public Response savePassword(@HeaderParam("code") String code, @FormParam("password") String password,
-                                 @FormParam("confirmPassword") String confirmPassword){
-
+    public Response savePassword(@HeaderParam("code") String code, String request){
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject  = (JsonObject) parser.parse(request);
+        String password = jsonObject.get("password").getAsString();
+        String confirmPassword = jsonObject.get("confirmPassword").getAsString();
         return authService.savePassword(code, password, confirmPassword);
 
     }
