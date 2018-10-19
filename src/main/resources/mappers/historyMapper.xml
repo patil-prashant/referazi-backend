@@ -15,7 +15,7 @@
     </resultMap>
 
     <select id="getMessageHistory" resultMap="historyResultMap">
-        select sender_id, message_text, read_status, created_at from history where conversation_id=#{conversationId}
+        select sender_id, message_text, read_status, created_at, message_id from history where conversation_id=#{conversationId}
     </select>
 
     <insert id="insertMessageHistory" parameterType="com.referazi.models.History" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
