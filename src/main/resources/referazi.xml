@@ -12,7 +12,10 @@
 
     <bean id="authController" class="com.referazi.controller.AuthController"/>
 
-    <bean id="authService" class="com.referazi.service.AuthService"/>
+    <bean id="authService" class="com.referazi.service.AuthService">
+        <property name="domain" value="${app.domain}"/>
+        <property name="basePath" value="${app.basePath}"/>
+    </bean>
 
     <bean id="blogController" class="com.referazi.controller.BlogController"/>
 
@@ -48,5 +51,22 @@
         <constructor-arg>
             <value>com.referazi.models.Auth</value>
         </constructor-arg>
+    </bean>
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <!-- SMTP settings -->
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="prashantpatil.ws@gmail.com" />
+        <property name="password" value="nuclearbomb" />
+
+        <property name="javaMailProperties">
+            <!-- additional properties specific to JavaMail -->
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
     </bean>
 </beans>

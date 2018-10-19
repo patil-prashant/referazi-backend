@@ -1,12 +1,18 @@
 package com.referazi.controller;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.referazi.models.*;
 import com.referazi.service.AuthService;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import java.security.NoSuchAlgorithmException;
 
@@ -41,4 +47,36 @@ public class AuthController {
         return Response.ok().build();
     }
 
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/resetPassword")
+    public Response resetPassword(String request){
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject  = (JsonObject) parser.parse(request);
+        String email = jsonObject.get("email").getAsString();
+
+        return authService.resetPassword(email);
+
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/changePassword")
+    public Response changePassword(@QueryParam("id") Integer userId, @QueryParam("token") String token){
+
+        return authService.changePassword(userId, token);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("/savePassword")
+    public Response savePassword(@HeaderParam("code") String code, @FormParam("password") String password,
+                                 @FormParam("confirmPassword") String confirmPassword){
+
+        return authService.savePassword(code, password, confirmPassword);
+
+    }
 }
